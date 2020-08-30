@@ -1,0 +1,47 @@
+<HomeScreen>:
+    GridLayout:
+        cols: 2
+        Button:
+            text: "Create Packing List"
+            on_press: root.create_packing_list_screen()
+        Button:
+            text: "Load Packing List"
+            on_press: root.packing_list_screen()
+
+<CreatePackingListScreen>:
+    GridLayout:
+        cols: 1
+        Label:
+            text: "Create Packing List Screen"
+        GridLayout:
+            cols: 3
+            TextInput:
+                id: trip_name 
+                hint_text: "Trip Name"
+                write_tab: False
+            TextInput:
+                id: start_date
+                hint_text: "Start Date"
+                write_tab: False
+            TextInput:
+                id: end_date
+                hint_text: "End Date"
+                write_tab: False
+        Button:
+            text: "Submit"
+            on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
+
+<PackingListScreen>:
+    GridLayout:
+        cols: 1
+        Label:
+            text: "Packing List Screen"
+
+
+<RootWidget>:
+    HomeScreen:
+        name: "home_screen"
+    CreatePackingListScreen:
+        name: "create_packing_list_screen"
+    PackingListScreen:
+        name: "packing_list_screen"
