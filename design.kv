@@ -19,14 +19,17 @@
                 id: trip_name 
                 hint_text: "Trip Name"
                 write_tab: False
+                text: "Austin"
             TextInput:
                 id: start_date
                 hint_text: "Start Date"
                 write_tab: False
+                text: "2020-08-30"
             TextInput:
                 id: end_date
                 hint_text: "End Date"
                 write_tab: False
+                text: "2020-09-07"
         Button:
             text: "Submit"
             on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
