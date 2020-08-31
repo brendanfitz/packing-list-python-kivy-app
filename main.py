@@ -14,14 +14,22 @@ class HomeScreen(Screen):
 
 class CreatePackingListScreen(Screen):
     def create_packing_list(self, trip_name, start_date, end_date):
-        print(trip_name.text, start_date.text, end_date.text)
-        packing_list = PackingList(trip_name.text, start_date.text, end_date.text)
+        try:
+            packing_list = PackingList(trip_name.text, start_date.text, end_date.text)
+            packing_list.write_yaml('austin.yaml')
+            print("Creating..." + str(packing_list) + '...and writing to filename test_austin.yaml')
+            self.manager.current = "packing_list_screen"
+        except ValueError:
+            self.ids.input_error.text = "Date Input must be in 'YYYY-MM-DD' form. Please try again."
+
 
 class PackingListScreen(Screen):
     pass
 
+
 class RootWidget(ScreenManager):
     pass
+
 
 class MainApp(App):
     def build(self):
