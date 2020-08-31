@@ -1,5 +1,7 @@
 import os
+import re
 import yaml
+import datetime as dt
 import pandas as pd
 from collections import OrderedDict
 
@@ -25,17 +27,26 @@ class PackingItem(object):
 class PackingList(list):
 
     PACKING_LIST_DIR = 'packing_lists'
+    DATE_PAT_STR = r'\d\d\d\d-\d\d-\d\d'
+    STRPTIME_PAT_STR = r'%Y-%m-%d'
+    DATE_PAT = re.compile(DATE_PAT_STR)
 
     CATEGORIES = []
     CSV_COLUMNS = ['Item', 'Count']
 
-    def __init__(self, trip_name, start_date, end_date):
+    def __init__(self, trip_name, start_date, end_date, item_list=None):
         self.trip_name = trip_name
-        self.start_date = start_date
-        self.end_date = end_date
+        self.start_date = PackingList.check_date(start_date)
+        self.end_date = PackingList.check_date(end_date)
 
         if not os.path.isdir(PackingList.PACKING_LIST_DIR):
             os.mkdir(PackingList.PACKING_LIST_DIR)
+
+    @classmethod
+    def check_date(cls, input):
+        if isinstance(input, (dt.date, dt.datetime)):
+            return input
+        return dt.datetime.strptime(input, cls.STRPTIME_PAT_STR)
 
     def __getitem__(self, item_name):
         item = next(filter(lambda x: x.item_name == item_name, self))
@@ -81,6 +92,11 @@ class PackingList(list):
         filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
         with open(filepath, 'w') as f:
             yaml.dump(data, f)
+
+    def read_yaml(self, filename):
+        filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
+        with open(filepath, 'w') as f:
+            yaml.load(data, f)
 
 
 
