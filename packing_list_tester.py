@@ -19,3 +19,7 @@ print('Packing Pants...')
 pl['Pants'].pack()
 
 pl.write_yaml('austin.yaml')
+
+pl2 = PackingList.read_yaml('austin.yaml')
+print(pl2)
+print(pl2.item_list)
