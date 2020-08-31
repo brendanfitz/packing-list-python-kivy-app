@@ -1,0 +1,19 @@
+end_date: 2020-09-07
+item_list:
+- - Pants
+  - 1
+  - true
+- - Shorts
+  - 4
+  - false
+- - Belt
+  - 1
+  - false
+- - ID
+  - 1
+  - false
+- - Phone Charger
+  - 1
+  - false
+start_date: 2020-08-28
+trip_name: Austin
