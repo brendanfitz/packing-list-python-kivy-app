@@ -2,10 +2,9 @@ from packing_list import PackingList, PackingItem
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
-from kivy.uix.boxlayout import BoxLayout
+from packing_list_table_widgets import TextInputPopup, SelectableRecycleGridLayout, RV, SelectableButton
 
 Builder.load_file('design.kv')
 
@@ -15,6 +14,7 @@ class HomeScreen(Screen):
     
     def packing_list_screen(self):
         self.manager.current = "packing_list_screen"
+
 
 class CreatePackingListScreen(Screen):
     def create_packing_list(self, trip_name, start_date, end_date):
@@ -30,22 +30,8 @@ class CreatePackingListScreen(Screen):
 
 
 class PackingListScreen(Screen):
+    pass
 
-    def __init__(self, **kwargs):
-        print("initializing packing list screen")
-        super(PackingListScreen, self).__init__(**kwargs)
-        self.get_item_list()
-    
-    def get_item_list(self):
-        layout = GridLayout(cols=3)
-        self.add_widget(layout) 
-        import pdb; pdb.set_trace()
-        packing_list = PackingList.read_yaml('austin.yaml')
-        for item in packing_list.item_list:
-            for data in item:
-                label = Label(text=str(data))
-                layout.add_widget(label)
-    
 
 class RootWidget(ScreenManager):
     pass

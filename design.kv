@@ -40,6 +40,39 @@
             on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
 
 <PackingListScreen>:
+    BoxLayout:
+        orientation: "vertical"
+
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 3
+
+            Label:
+                text: "Item Name"
+            Label:
+                text: "Count"
+            Label:
+                text: "Packed"
+
+        BoxLayout:
+            RV:
+
+<RV>:
+    RecycleView:
+        viewclass: 'SelectableButton'
+        data: [{'text': str(x)} for x in root.data_items]
+        SelectableRecycleGridLayout:
+            cols: 3
+            default_size: None, dp(26)
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+            multiselect: True
+            touch_multiselect: True
+
 
 <RootWidget>:
     HomeScreen:
