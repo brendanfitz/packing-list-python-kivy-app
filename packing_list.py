@@ -24,6 +24,14 @@ class PackingItem(object):
     def to_list(self):
         return [self.item_name, self.count, self.packed]
 
+    def to_dict(self):
+        return {
+            'item_name': self.item_name,
+            'count': self.count,
+            'packed': self.packed
+        }
+
+
 class PackingList(list):
 
     PACKING_LIST_DIR = 'packing_lists'
@@ -34,10 +42,11 @@ class PackingList(list):
     CATEGORIES = []
     CSV_COLUMNS = ['Item', 'Count']
 
-    def __init__(self, trip_name, start_date, end_date, item_list=None):
+    def __init__(self, trip_name, start_date, end_date, item_list=[]):
         self.trip_name = trip_name
         self.start_date = PackingList.check_date(start_date)
         self.end_date = PackingList.check_date(end_date)
+        self.item_list = item_list
 
         if not os.path.isdir(PackingList.PACKING_LIST_DIR):
             os.mkdir(PackingList.PACKING_LIST_DIR)
@@ -93,10 +102,16 @@ class PackingList(list):
         with open(filepath, 'w') as f:
             yaml.dump(data, f)
 
-    def read_yaml(self, filename):
-        filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
-        with open(filepath, 'w') as f:
-            yaml.load(data, f)
-
+    @classmethod
+    def read_yaml(cls, filename):
+        filepath = os.path.join(cls.PACKING_LIST_DIR, filename)
+        with open(filepath, 'r') as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+        return cls(
+            data['trip_name'],
+            data['start_date'],
+            data['end_date'],
+            data['item_list']
+        )
 
 

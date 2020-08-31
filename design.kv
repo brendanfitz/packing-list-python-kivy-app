@@ -38,25 +38,6 @@
             on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
 
 <PackingListScreen>:
-    GridLayout:
-        cols: 1
-        Label:
-            text: "Packing List Screen"
-        GridLayout:
-            cols: 3
-            Label:
-                id: trip_name 
-                text: "Austin"
-            Label:
-                id: start_date
-                text: "2020-08-30"
-            Label:
-                id: end_date
-                text: "2020-09-07"
-        Label:
-            id: input_error
-            text: ""
-
 
 <RootWidget>:
     HomeScreen:
