@@ -1,9 +1,14 @@
+#:kivy 1.11.1
+
 <HomeScreen>:
     GridLayout:
-        cols: 2
+        cols: 3
         Button:
             text: "Create Packing List"
             on_press: root.create_packing_list_screen()
+        Button:
+            text: "Select Packing List"
+            on_press: root.select_packing_list_screen()
         Button:
             text: "Load Packing List"
             on_press: root.packing_list_screen()
@@ -19,17 +24,17 @@
                 id: trip_name 
                 hint_text: "Trip Name"
                 write_tab: False
-                text: "Austin"
+                text: "Europe"
             TextInput:
                 id: start_date
                 hint_text: "Start Date"
                 write_tab: False
-                text: "2020-08-30"
+                text: "2020-01-30"
             TextInput:
                 id: end_date
                 hint_text: "End Date"
                 write_tab: False
-                text: "2020-09-07"
+                text: "2020-02-08"
         Label:
             id: input_error
             text: ""
@@ -37,12 +42,58 @@
             text: "Submit"
             on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
 
+<SelectPackingListScreen>:
+
+
 <PackingListScreen>:
+    BoxLayout:
+        orientation: "vertical"
+
+        GridLayout:
+            cols: 1
+            Button: 
+                text: "Select Packing List Screen"
+                on_press: root.select_packing_list_screen()
+
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 3
+
+            Label:
+                text: "Item Name"
+            Label:
+                text: "Count"
+            Label:
+                text: "Packed"
+
+        BoxLayout:
+            RV:
+                id: dataview
+
+<RV>:
+    RecycleView:
+        viewclass: 'SelectableButton'
+        data: [{'text': str(x)} for x in root.data_items]
+        id: rv_data
+        SelectableRecycleGridLayout:
+            cols: 3
+            default_size: None, dp(26)
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+            multiselect: True
+            touch_multiselect: True
+
 
 <RootWidget>:
     HomeScreen:
         name: "home_screen"
     CreatePackingListScreen:
         name: "create_packing_list_screen"
+    SelectPackingListScreen:
+        name: "select_packing_list_screen"
     PackingListScreen:
         name: "packing_list_screen"
