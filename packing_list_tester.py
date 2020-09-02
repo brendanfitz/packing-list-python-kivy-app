@@ -10,7 +10,7 @@ print(pl)
 
 print(); print()
 
-pl.load_packing_list_csv('dummy_data.csv')
+pl.load_packing_list_csv('packing_lists/dummy_data.csv')
 pl.print_packing_list()
 
 print(); print()
@@ -18,8 +18,10 @@ print(); print()
 print('Packing Pants...')
 pl['Pants'].pack()
 
-pl.write_yaml('austin.yaml')
+pl.write_yaml()
 
-pl2 = PackingList.read_yaml('austin.yaml')
+pl2 = PackingList.read_yaml('Austin 2020-08-28 to 2020-09-07.yaml')
 print(pl2)
 print(pl2.item_list)
+
+print(PackingList.list_packing_lists())

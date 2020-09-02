@@ -29,13 +29,15 @@ class RV(BoxLayout):
 
     def __init__(self, **kwargs):
         super(RV, self).__init__(**kwargs)
-        self.get_packing_list()
+        self.current_packing_list_filename = None
 
     def get_packing_list(self):
-        packing_list = PackingList.read_yaml('austin.yaml')
+        packing_list = PackingList.read_yaml(self.current_packing_list_filename)
+        self.data_items.clear()
         for item in packing_list.item_list:
             for data in item:
                 self.data_items.append(data)
+    
 
 
 class SelectableButton(RecycleDataViewBehavior, Button):
