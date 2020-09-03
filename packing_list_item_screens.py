@@ -12,18 +12,16 @@ class PackingListScreen(Screen):
         btn.on_press = popup.open
         
         popup.ids.cancel_btn.bind(on_press=popup.dismiss)
+        submit_args = [btn, packing_list, filename, popup]
         popup.ids.submit_btn.bind(
-            on_press=lambda btn: self.create_packing_list_item(
-                btn, packing_list, filename
-            ),
+            on_press=lambda btn: self.create_packing_list_item(*submit_args),
             on_release=popup.dismiss,
         )
 
-    def create_packing_list_item(self, btn, packing_list, filename):
-        layout = btn.parent.parent.children[1]
-        item_name = layout.children[2].text
-        count = layout.children[1].text
-        packed = PackingItem.process_packed_status(layout.children[0].text)
+    def create_packing_list_item(self, btn, packing_list, filename, popup):
+        item_name = popup.ids.item_name.text
+        count = popup.ids.count.text
+        packed = PackingItem.process_packed_status(popup.ids.packed.text)
         packing_list.append(PackingItem(item_name, count, packed))
         packing_list.write_yaml()
         self.ids.dataview.update_layout(filename)
