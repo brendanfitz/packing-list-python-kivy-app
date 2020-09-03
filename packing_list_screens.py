@@ -12,6 +12,11 @@ class CreatePackingListScreen(Screen):
         try:
             packing_list = PackingList(trip_name.text, start_date.text, end_date.text)
             packing_list.write_yaml()
+            filename = packing_list.create_filename()
+
+            screen = self.manager.get_screen('packing_list_screen')
+            screen.ids.dataview.update_layout(filename)
+            screen.update_layout(filename)
             self.manager.current = "packing_list_screen"
         except ValueError:
             self.ids.input_error.text = "Date Input must be in 'YYYY-MM-DD' form. Please try again."
