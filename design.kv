@@ -83,6 +83,33 @@
             cols: 1
             id: grid
 
+<PackingListPopUp>:
+    GridLayout:
+        cols: 1
+        GridLayout:
+            cols: 3
+            id: item_input
+            TextInput:
+                id: trip_name
+                hint_text: "Trip Name"
+                write_tab: False
+            TextInput:
+                id: start_date
+                hint_text: "Start Date"
+                write_tab: False
+            TextInput:
+                id: end_date
+                hint_text: "End Date"
+                write_tab: False
+        GridLayout:
+            cols: 2
+            Button:
+                id: submit_btn
+                text: 'Submit'
+            Button:
+                id: cancel_btn
+                text: 'Cancel'
+
 <PackingListScreen>:
     BoxLayout:
         orientation: "vertical"
@@ -143,10 +170,10 @@
         GridLayout:
             cols: 2
             Button:
-                id: popup_submit_btn
+                id: submit_btn
                 text: 'Submit'
             Button:
-                id: popup_cancel_btn
+                id: cancel_btn
                 text: 'Cancel'
 
 <PackingListItemUpdatePopUp>:

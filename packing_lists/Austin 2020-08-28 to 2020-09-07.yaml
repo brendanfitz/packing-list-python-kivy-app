@@ -1,4 +1,4 @@
-end_date: 2020-09-07
+end_date: '2020-09-07'
 item_list:
 - - Pants
   - 1
@@ -15,5 +15,5 @@ item_list:
 - - Phone Charger
   - 1
   - false
-start_date: 2020-08-28
+start_date: '2020-08-28'
 trip_name: Austin

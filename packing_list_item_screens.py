@@ -11,8 +11,8 @@ class PackingListScreen(Screen):
         btn = self.ids.create_item_btn
         btn.on_press = popup.open
         
-        popup.ids.popup_cancel_btn.bind(on_press=popup.dismiss)
-        popup.ids.popup_submit_btn.bind(
+        popup.ids.cancel_btn.bind(on_press=popup.dismiss)
+        popup.ids.submit_btn.bind(
             on_press=lambda btn: self.create_packing_list_item(
                 btn, packing_list, filename
             ),

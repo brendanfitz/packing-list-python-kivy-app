@@ -64,39 +64,27 @@ class UpdatePackingListScreen(Screen):
     def create_popup(self, filename):
         packing_list = PackingList.read_yaml(filename + '.yaml')
 
-        content = GridLayout(cols=1)
-        popup = Popup(content=content, auto_dismiss=False)
+        popup = PackingListPopup(auto_dismiss=False)
 
-        packing_list_layout = self.create_packing_list_layout(packing_list)
-        content.add_widget(packing_list_layout)
+        popup.ids.trip_name.text = packing_list.trip_name
+        popup.ids.start_date.text = packing_list.start_date_tostring()
+        popup.ids.end_date.text = packing_list.end_date_tostring()
 
-        button_layout = GridLayout(cols=2)
-        content.add_widget(button_layout)
-
-        submit = Button(text='Submit')
-        button_layout.add_widget(submit)
-
-        cancel = Button(text='Cancel')
-        button_layout.add_widget(cancel)
-
-        submit.bind(
-            on_press=lambda btn: self.submit_button_press(
-                btn, packing_list, filename
+        popup.ids.submit_btn.bind(
+            on_press=lambda btn: self.update_packing_list(
+                btn, packing_list, popup, filename
             ),
             on_release=popup.dismiss,
         )
-        cancel.bind(on_press=popup.dismiss)
+        popup.ids.cancel_btn.bind(on_press=popup.dismiss)
 
         return popup
     
-    def submit_button_press(self, btn, packing_list, old_filename):
-        packing_list_layout = btn.parent.parent.children[1]
-        end_date, start_date, trip_name = packing_list_layout.children
-
+    def update_packing_list(self, btn, packing_list, popup, old_filename):
         # finish update behavior
-        packing_list.trip_name = trip_name.text
-        packing_list.start_date = PackingList.check_date(start_date.text)
-        packing_list.end_date = PackingList.check_date(end_date.text)
+        packing_list.trip_name = popup.ids.trip_name.text
+        packing_list.start_date = PackingList.check_date(popup.ids.start_date.text)
+        packing_list.end_date = PackingList.check_date(popup.ids.end_date.text)
         packing_list.write_yaml()
 
         # remove old filename
@@ -108,33 +96,7 @@ class UpdatePackingListScreen(Screen):
 
         self.update_layout()
 
-    def create_packing_list_layout(self, packing_list):
-        packing_list_layout = GridLayout(id="packing_list_layout", cols=3)
-        text_input = TextInput(
-            id="trip_name",
-            text=packing_list.trip_name,
-            write_tab=False,
-            hint_text="Trip Name"
-        )
-        packing_list_layout.add_widget(text_input)
-
-        text_input = TextInput(
-            id="start_date",
-            text=packing_list.start_date_tostring(),
-            write_tab=False,
-            hint_text="Start Date"
-        )
-        packing_list_layout.add_widget(text_input)
-
-        text_input = TextInput(
-            id="end_date",
-            text=str(packing_list.end_date_tostring()),
-            write_tab=False,
-            hint_text="End Date"
-        )
-        packing_list_layout.add_widget(text_input)
-        
-        return packing_list_layout
-
+class PackingListPopup(Popup):
+    pass
     
     
