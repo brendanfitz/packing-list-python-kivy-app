@@ -119,10 +119,16 @@ class PackingList(list):
         return f"Trip to {self.trip_name} from {start_date_str} to {end_date_str}"
 
     def create_filename(self):
-        start_date_str = self.start_date.strftime(self.STRPTIME_PAT_STR)
-        end_date_str = self.end_date.strftime(self.STRPTIME_PAT_STR)
+        start_date_str = self.start_date_tostring()
+        end_date_str = self.end_date_tostring()
         filename = f"{self.trip_name} {start_date_str} to {end_date_str}.yaml"
         return filename
+    
+    def start_date_tostring(self):
+        return self.start_date.strftime(self.STRPTIME_PAT_STR)
+
+    def end_date_tostring(self):
+        return self.start_date.strftime(self.STRPTIME_PAT_STR)
 
     def write_yaml(self):
         filename = self.create_filename()
@@ -130,8 +136,8 @@ class PackingList(list):
 
         data = dict(
             trip_name=self.trip_name,
-            start_date=self.start_date,
-            end_date=self.end_date,
+            start_date=self.start_date_tostring(),
+            end_date=self.end_date_tostring(),
             item_list=[x.to_list() for x in self]
         )
 
@@ -145,8 +151,8 @@ class PackingList(list):
             data = yaml.load(f, Loader=yaml.FullLoader)
         return cls(
             data['trip_name'],
-            data['start_date'],
-            data['end_date'],
+            cls.check_date(data['start_date']),
+            cls.check_date(data['end_date']),
             data['item_list']
         )
     

@@ -120,7 +120,7 @@ class UpdatePackingListScreen(Screen):
 
         text_input = TextInput(
             id="start_date",
-            text=str(packing_list.start_date),
+            text=packing_list.start_date_tostring(),
             write_tab=False,
             hint_text="Start Date"
         )
@@ -128,7 +128,7 @@ class UpdatePackingListScreen(Screen):
 
         text_input = TextInput(
             id="end_date",
-            text=str(packing_list.end_date),
+            text=str(packing_list.end_date_tostring()),
             write_tab=False,
             hint_text="End Date"
         )
