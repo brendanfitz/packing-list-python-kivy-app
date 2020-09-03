@@ -59,11 +59,9 @@
         TopBar:
         Label:
             text: "Select Packing List"
-        SelectPackingListGrid:
+        GridLayout:
             id: grid
-
-<SelectPackingListGrid@GridLayout>:
-    cols: 1
+            cols: 1
 
 <UpdatePackingListScreen>:
     GridLayout:
@@ -71,6 +69,9 @@
         TopBar:
         Label:
             text: "Update Packing List"
+        GridLayout:
+            id: grid
+            cols: 1
 
 <DeletePackingListScreen>:
     GridLayout:
@@ -78,34 +79,25 @@
         TopBar:
         Label:
             text: "Delete Packing List"
-        DeletePackingListGrid:
+        GridLayout:
+            cols: 1
             id: grid
-
-<DeletePackingListGrid@GridLayout>:
-    cols: 1
 
 <PackingListScreen>:
     BoxLayout:
         orientation: "vertical"
         TopBar:
         GridLayout:
-            cols: 1
-            Button: 
-                text: "Select Packing List Screen"
-                on_press: root.select_packing_list_screen()
-        GridLayout:
             size_hint: 1, None
             size_hint_y: None
             height: 25
             cols: 3
-
             Label:
                 text: "Item Name"
             Label:
                 text: "Count"
             Label:
                 text: "Packed"
-
         BoxLayout:
             RV:
                 id: dataview

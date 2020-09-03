@@ -21,20 +21,17 @@ class HomeScreen(Screen):
     
     def select_packing_list_screen(self):
         screen_name ='select_packing_list_screen'
-        screen = self.manager.get_screen(screen_name)
-        screen.ids.grid.update_layout()
+        self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 
     def update_packing_list_screen(self):
         screen_name ='update_packing_list_screen'
-        screen = self.manager.get_screen(screen_name)
-        screen.ids.grid.update_layout()
+        self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 
     def delete_packing_list_screen(self):
         screen_name ='delete_packing_list_screen'
-        screen = self.manager.get_screen(screen_name)
-        screen.ids.grid.update_layout()
+        self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 
 
