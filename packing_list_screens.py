@@ -62,7 +62,7 @@ class UpdatePackingListScreen(Screen):
             grid.add_widget(btn)
     
     def create_popup(self, filename):
-        packing_list = PackingList.read_yaml(filename + '.yaml')
+        packing_list = PackingList.read_yaml(filename)
 
         popup = PackingListPopup(auto_dismiss=False)
 
@@ -90,9 +90,9 @@ class UpdatePackingListScreen(Screen):
         # remove old filename
         old_filepath = os.path.join(
             PackingList.PACKING_LIST_DIR,
-            old_filename + '.yaml'
+            old_filename
         )
-        os.remove(old_filepath)
+        os.remove(old_filepath + '.yaml')
 
         self.update_layout()
 

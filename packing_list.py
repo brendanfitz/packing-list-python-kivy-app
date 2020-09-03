@@ -146,6 +146,9 @@ class PackingList(list):
 
     @classmethod
     def read_yaml(cls, filename):
+        if filename[-5:] != '.yaml':
+            filename = filename + '.yaml'
+
         filepath = os.path.join(cls.PACKING_LIST_DIR, filename)
         with open(filepath, 'r') as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
