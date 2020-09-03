@@ -93,10 +93,14 @@ class PackingList(list):
         end_date_str = self.end_date.strftime(str_format)
         return f"Trip to {self.trip_name} from {start_date_str} to {end_date_str}"
 
-    def write_yaml(self):
+    def create_filename(self):
         start_date_str = self.start_date.strftime(self.STRPTIME_PAT_STR)
         end_date_str = self.end_date.strftime(self.STRPTIME_PAT_STR)
         filename = f"{self.trip_name} {start_date_str} to {end_date_str}.yaml"
+        return filename
+
+    def write_yaml(self):
+        filename = self.create_filename()
         filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
 
         data = dict(
