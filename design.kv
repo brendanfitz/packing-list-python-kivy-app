@@ -59,11 +59,9 @@
         TopBar:
         Label:
             text: "Select Packing List"
-        SelectPackingListGrid:
+        GridLayout:
             id: grid
-
-<SelectPackingListGrid@GridLayout>:
-    cols: 1
+            cols: 1
 
 <UpdatePackingListScreen>:
     GridLayout:
@@ -71,6 +69,9 @@
         TopBar:
         Label:
             text: "Update Packing List"
+        GridLayout:
+            id: grid
+            cols: 1
 
 <DeletePackingListScreen>:
     GridLayout:
@@ -78,42 +79,38 @@
         TopBar:
         Label:
             text: "Delete Packing List"
-        DeletePackingListGrid:
+        GridLayout:
+            cols: 1
             id: grid
-
-<DeletePackingListGrid@GridLayout>:
-    cols: 1
 
 <PackingListScreen>:
     BoxLayout:
         orientation: "vertical"
         TopBar:
         GridLayout:
-            cols: 1
-            Button: 
-                text: "Select Packing List Screen"
-                on_press: root.select_packing_list_screen()
-        GridLayout:
             size_hint: 1, None
             size_hint_y: None
             height: 25
             cols: 3
-
             Label:
                 text: "Item Name"
             Label:
                 text: "Count"
             Label:
                 text: "Packed"
-
         BoxLayout:
             RV:
                 id: dataview
+        GridLayout:
+            cols: 1
+            Button:
+                id: create_item_btn
+                text: "Create Item"
 
 <RV>:
     RecycleView:
         viewclass: 'SelectableButton'
-        data: [{'text': str(x)} for x in root.data_items]
+        data: [{'text': str(x[2]), 'filename': x[0], 'packing_item': x[1]} for x in root.data_items]
         id: rv_data
         SelectableRecycleGridLayout:
             cols: 3
@@ -124,6 +121,63 @@
             orientation: 'vertical'
             multiselect: True
             touch_multiselect: True
+
+<PackingListItemPopUp>:
+    GridLayout:
+        cols: 1
+        GridLayout:
+            cols: 3
+            id: item_input
+            TextInput:
+                id: item_name
+                hint_text: "Item Name"
+                write_tab: False
+            TextInput:
+                id: count 
+                hint_text: "Count"
+                write_tab: False
+            TextInput:
+                id: packed 
+                hint_text: "Packed"
+                write_tab: False
+        GridLayout:
+            cols: 2
+            Button:
+                id: popup_submit_btn
+                text: 'Submit'
+            Button:
+                id: popup_cancel_btn
+                text: 'Cancel'
+
+<PackingListItemUpdatePopUp>:
+    GridLayout:
+        cols: 1
+        GridLayout:
+            cols: 3
+            id: item_input
+            TextInput:
+                id: item_name
+                hint_text: "Item Name"
+                write_tab: False
+            TextInput:
+                id: count 
+                hint_text: "Count"
+                write_tab: False
+            TextInput:
+                id: packed 
+                hint_text: "Packed"
+                write_tab: False
+        GridLayout:
+            cols: 3
+            Button:
+                id: popup_submit_btn
+                text: 'Submit'
+            Button:
+                id: popup_delete_btn
+                text: 'Delete'
+            Button:
+                id: popup_cancel_btn
+                text: 'Cancel'
 
 
 <RootWidget>:

@@ -10,13 +10,38 @@ class PackingItem(object):
     def __init__(self, item_name, count, packed=False):
         self.item_name = item_name
         self.count = count
-        self.packed = False 
+        self.packed = packed
     
     def pack(self):
         self.packed = True
 
     def unpack(self):
-        self.packed = True
+        self.packed = False
+    
+    def set_packed_status(self, i):
+        print('...' + i.lower() + '...')
+        if i.lower() in ('yes', 'y'):
+            print('packing...')
+            self.pack()
+        elif i.lower() in ('no', 'n'):
+            print('unpacking...')
+            self.unpack()
+        else:
+            raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
+
+    @staticmethod
+    def process_packed_status(i):
+        if i.lower() in ('yes', 'y'):
+            return True
+        elif i.lower() in ('no', 'n'):
+            return False
+        raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
+    
+    def get_packed_status(self):
+        print(self.item_name, self.packed)
+        if self.packed:
+            return 'Yes'
+        return 'No'
     
     def __str__(self):
         return f"{self.item_name:<30}{self.count:>10}{self.packed:>10}"
@@ -42,11 +67,14 @@ class PackingList(list):
     CATEGORIES = []
     CSV_COLUMNS = ['Item', 'Count']
 
-    def __init__(self, trip_name, start_date, end_date, item_list=[]):
+    def __init__(self, trip_name, start_date, end_date, item_list=None):
         self.trip_name = trip_name
         self.start_date = PackingList.check_date(start_date)
         self.end_date = PackingList.check_date(end_date)
-        self.item_list = item_list
+        if item_list is not None:
+            for item_data in item_list:
+                self.append(PackingItem(*item_data))
+
 
         if not os.path.isdir(PackingList.PACKING_LIST_DIR):
             os.mkdir(PackingList.PACKING_LIST_DIR)
@@ -90,10 +118,14 @@ class PackingList(list):
         end_date_str = self.end_date.strftime(str_format)
         return f"Trip to {self.trip_name} from {start_date_str} to {end_date_str}"
 
-    def write_yaml(self):
+    def create_filename(self):
         start_date_str = self.start_date.strftime(self.STRPTIME_PAT_STR)
         end_date_str = self.end_date.strftime(self.STRPTIME_PAT_STR)
         filename = f"{self.trip_name} {start_date_str} to {end_date_str}.yaml"
+        return filename
+
+    def write_yaml(self):
+        filename = self.create_filename()
         filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
 
         data = dict(

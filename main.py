@@ -9,9 +9,7 @@ from packing_list_screens import (
     CreatePackingListScreen, SelectPackingListScreen,
 )
 from packing_list_item_screens import PackingListScreen
-from packing_list_table_widgets import (
-    TextInputPopup, SelectableRecycleGridLayout, RV, SelectableButton
-)
+from packing_list_table_widgets import RV
 
 Builder.load_file('design.kv')
 
@@ -21,20 +19,17 @@ class HomeScreen(Screen):
     
     def select_packing_list_screen(self):
         screen_name ='select_packing_list_screen'
-        screen = self.manager.get_screen(screen_name)
-        screen.ids.grid.update_layout()
+        self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 
     def update_packing_list_screen(self):
         screen_name ='update_packing_list_screen'
-        screen = self.manager.get_screen(screen_name)
-        screen.ids.grid.update_layout()
+        self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 
     def delete_packing_list_screen(self):
         screen_name ='delete_packing_list_screen'
-        screen = self.manager.get_screen(screen_name)
-        screen.ids.grid.update_layout()
+        self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 
 
