@@ -33,6 +33,8 @@ class RV(BoxLayout):
     def update_layout(self, filename=None, packing_list=None):
         if filename is not None:
             packing_list = PackingList.read_yaml(filename + '.yaml')
+        else:
+            filename = packing_list.create_filename()[:-5]
         self.data_items.clear()
         if not packing_list:
             self.data_items.append('')
@@ -40,8 +42,7 @@ class RV(BoxLayout):
             for item in packing_list:
                 self.data_items.append((filename, item.item_name, item.item_name))
                 self.data_items.append((filename, item.item_name, item.count))
-                self.data_items.append((filename, item.item_name, item.packed))
-
+                self.data_items.append((filename, item.item_name, item.get_packed_status())) 
 
 class SelectableButton(RecycleDataViewBehavior, Button):
     ''' Add selection support to the Button '''
@@ -73,18 +74,33 @@ class SelectableButton(RecycleDataViewBehavior, Button):
         popup = PackingListItemUpdatePopUp(self)
         popup.ids.item_name.text = packing_item.item_name
         popup.ids.count.text = str(packing_item.count)
-        popup.ids.packed.text = str(packing_item.packed)
+        popup.ids.packed.text = packing_item.get_packed_status()
 
-        popup.ids.popup_submit_btn.bind(on_press=popup.dismiss)
+        update_args = [
+            packing_list,
+            packing_item,
+            popup
+        ]
+        popup.ids.popup_submit_btn.bind(
+            on_press=lambda btn: self.update_packing_list_item(*update_args),
+            on_release=popup.dismiss,
+        )
         popup.ids.popup_delete_btn.bind(
-            on_press=lambda btn: self.delete_packing_item(packing_list, packing_item),
+            on_press=lambda btn: self.delete_packing_list_item(packing_list, packing_item),
             on_release=popup.dismiss,
         )
         popup.ids.popup_cancel_btn.bind(on_press=popup.dismiss)
 
         popup.open()
     
-    def delete_packing_item(self, packing_list, packing_item):
+    def update_packing_list_item(self, packing_list, packing_item, popup):
+        packing_item.item_name = popup.ids.item_name.text
+        packing_item.count = int(popup.ids.count.text)
+        packing_item.set_packed_status(popup.ids.packed.text)
+        packing_list.write_yaml()
+        self.parent.parent.parent.update_layout(packing_list=packing_list)
+
+    def delete_packing_list_item(self, packing_list, packing_item):
         packing_list.remove(packing_item)
         packing_list.write_yaml()
         self.parent.parent.parent.update_layout(packing_list=packing_list)

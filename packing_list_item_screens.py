@@ -23,7 +23,7 @@ class PackingListScreen(Screen):
         layout = btn.parent.parent.children[1]
         item_name = layout.children[2].text
         count = layout.children[1].text
-        packed = layout.children[0].text
+        packed = PackingItem.process_packed_status(layout.children[0].text)
         packing_list.append(PackingItem(item_name, count, packed))
         packing_list.write_yaml()
         self.ids.dataview.update_layout(filename)
