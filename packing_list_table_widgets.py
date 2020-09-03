@@ -34,10 +34,13 @@ class RV(BoxLayout):
     def get_packing_list(self):
         packing_list = PackingList.read_yaml(self.current_packing_list_filename)
         self.data_items.clear()
-        for item in packing_list.item_list:
-            for data in item:
-                self.data_items.append(data)
-    
+        if not packing_list:
+            self.data_items.append('')
+        else:
+            for item in packing_list:
+                self.data_items.append(item.item_name)
+                self.data_items.append(item.count)
+                self.data_items.append(item.packed)
 
 
 class SelectableButton(RecycleDataViewBehavior, Button):

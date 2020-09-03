@@ -42,11 +42,14 @@ class PackingList(list):
     CATEGORIES = []
     CSV_COLUMNS = ['Item', 'Count']
 
-    def __init__(self, trip_name, start_date, end_date, item_list=[]):
+    def __init__(self, trip_name, start_date, end_date, item_list=None):
         self.trip_name = trip_name
         self.start_date = PackingList.check_date(start_date)
         self.end_date = PackingList.check_date(end_date)
-        self.item_list = item_list
+        if item_list is not None:
+            for item_data in item_list:
+                self.append(PackingItem(*item_data))
+
 
         if not os.path.isdir(PackingList.PACKING_LIST_DIR):
             os.mkdir(PackingList.PACKING_LIST_DIR)
