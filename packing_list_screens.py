@@ -28,7 +28,7 @@ class SelectPackingListScreen(Screen):
 
     def packing_list_screen(self, btn):
         screen = self.manager.get_screen('packing_list_screen')
-        filename = btn.text
+        filename = btn.text + '.yaml'
         screen.ids.dataview.update_layout(filename)
         screen.update_layout(filename)
         self.manager.current = "packing_list_screen"

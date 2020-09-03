@@ -5,7 +5,7 @@ from kivy.uix.popup import Popup
 class PackingListScreen(Screen):
 
     def update_layout(self, filename):
-        packing_list = PackingList.read_yaml(filename + '.yaml')
+        packing_list = PackingList.read_yaml(filename)
 
         popup = PackingListItemPopUp(title="Create Packing List Item")
         btn = self.ids.create_item_btn

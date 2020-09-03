@@ -32,7 +32,7 @@ class RV(BoxLayout):
 
     def update_layout(self, filename=None, packing_list=None):
         if filename is not None:
-            packing_list = PackingList.read_yaml(filename + '.yaml')
+            packing_list = PackingList.read_yaml(filename)
         else:
             filename = packing_list.create_filename()[:-5]
 
@@ -69,7 +69,7 @@ class SelectableButton(RecycleDataViewBehavior, Button):
         self.selected = is_selected
 
     def on_press(self):
-        packing_list = PackingList.read_yaml(self.filename + '.yaml')
+        packing_list = PackingList.read_yaml(self.filename)
         packing_item = next(
             filter(lambda x: x.item_name == self.packing_item, packing_list)
         )
