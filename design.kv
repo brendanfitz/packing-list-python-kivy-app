@@ -101,6 +101,11 @@
         BoxLayout:
             RV:
                 id: dataview
+        GridLayout:
+            cols: 1
+            Button:
+                id: create_item_btn
+                text: "Create Item"
 
 <RV>:
     RecycleView:
@@ -116,6 +121,33 @@
             orientation: 'vertical'
             multiselect: True
             touch_multiselect: True
+
+<PackingListItemPopUp>:
+    GridLayout:
+        cols: 1
+        GridLayout:
+            cols: 3
+            id: item_input
+            TextInput:
+                id: item_name
+                hint_text: "Item Name"
+                write_tab: False
+            TextInput:
+                id: count 
+                hint_text: "Count"
+                write_tab: False
+            TextInput:
+                id: packed 
+                hint_text: "Packed"
+                write_tab: False
+        GridLayout:
+            cols: 2
+            Button:
+                id: popup_submit_btn
+                text: 'Submit'
+            Button:
+                id: popup_cancel_btn
+                text: 'Cancel'
 
 
 <RootWidget>:

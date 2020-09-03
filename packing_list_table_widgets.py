@@ -29,10 +29,9 @@ class RV(BoxLayout):
 
     def __init__(self, **kwargs):
         super(RV, self).__init__(**kwargs)
-        self.current_packing_list_filename = None
 
-    def get_packing_list(self):
-        packing_list = PackingList.read_yaml(self.current_packing_list_filename)
+    def update_layout(self, filename):
+        packing_list = PackingList.read_yaml(filename + '.yaml')
         self.data_items.clear()
         if not packing_list:
             self.data_items.append('')

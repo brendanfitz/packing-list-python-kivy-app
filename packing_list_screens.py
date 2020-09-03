@@ -15,10 +15,6 @@ class CreatePackingListScreen(Screen):
             self.manager.current = "packing_list_screen"
         except ValueError:
             self.ids.input_error.text = "Date Input must be in 'YYYY-MM-DD' form. Please try again."
-    
-    def update_layout(self):
-        self.ids.grid.update_layout()
-        self.manager.current = "select_packing_list_screen"
 
 class SelectPackingListScreen(Screen):
 
@@ -31,9 +27,10 @@ class SelectPackingListScreen(Screen):
             grid.add_widget(btn)
 
     def packing_list_screen(self, btn):
-        rv = self.manager.get_screen('packing_list_screen').ids.dataview
-        rv.current_packing_list_filename = btn.text + '.yaml'
-        rv.get_packing_list()
+        screen = self.manager.get_screen('packing_list_screen')
+        filename = btn.text
+        screen.ids.dataview.update_layout(filename)
+        screen.update_layout(filename)
         self.manager.current = "packing_list_screen"
 
 
