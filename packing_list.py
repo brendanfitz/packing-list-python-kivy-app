@@ -128,7 +128,7 @@ class PackingList(list):
         return self.start_date.strftime(self.STRPTIME_PAT_STR)
 
     def end_date_tostring(self):
-        return self.start_date.strftime(self.STRPTIME_PAT_STR)
+        return self.end_date.strftime(self.STRPTIME_PAT_STR)
 
     def write_yaml(self):
         filename = self.create_filename()
