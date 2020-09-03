@@ -9,9 +9,7 @@ from packing_list_screens import (
     CreatePackingListScreen, SelectPackingListScreen,
 )
 from packing_list_item_screens import PackingListScreen
-from packing_list_table_widgets import (
-    TextInputPopup, SelectableRecycleGridLayout, RV, SelectableButton
-)
+from packing_list_table_widgets import RV
 
 Builder.load_file('design.kv')
 

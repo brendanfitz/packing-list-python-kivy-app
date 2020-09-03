@@ -9,12 +9,12 @@ from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.popup import Popup
 
-class TextInputPopup(Popup):
+class PackingListItemUpdatePopUp(Popup):
     obj = ObjectProperty(None)
     obj_text = StringProperty("")
 
     def __init__(self, obj, **kwargs):
-        super(TextInputPopup, self).__init__(**kwargs)
+        super(PackingListItemUpdatePopUp, self).__init__(**kwargs)
         self.obj = obj
         self.obj_text = obj.text
 
@@ -30,16 +30,17 @@ class RV(BoxLayout):
     def __init__(self, **kwargs):
         super(RV, self).__init__(**kwargs)
 
-    def update_layout(self, filename):
-        packing_list = PackingList.read_yaml(filename + '.yaml')
+    def update_layout(self, filename=None, packing_list=None):
+        if filename is not None:
+            packing_list = PackingList.read_yaml(filename + '.yaml')
         self.data_items.clear()
         if not packing_list:
             self.data_items.append('')
         else:
             for item in packing_list:
-                self.data_items.append(item.item_name)
-                self.data_items.append(item.count)
-                self.data_items.append(item.packed)
+                self.data_items.append((filename, item.item_name, item.item_name))
+                self.data_items.append((filename, item.item_name, item.count))
+                self.data_items.append((filename, item.item_name, item.packed))
 
 
 class SelectableButton(RecycleDataViewBehavior, Button):
@@ -65,8 +66,29 @@ class SelectableButton(RecycleDataViewBehavior, Button):
         self.selected = is_selected
 
     def on_press(self):
-        popup = TextInputPopup(self)
-        popup.open()
+        packing_list = PackingList.read_yaml(self.filename + '.yaml')
+        packing_item = next(
+            filter(lambda x: x.item_name == self.packing_item, packing_list)
+        )
+        popup = PackingListItemUpdatePopUp(self)
+        popup.ids.item_name.text = packing_item.item_name
+        popup.ids.count.text = str(packing_item.count)
+        popup.ids.packed.text = str(packing_item.packed)
 
+        popup.ids.popup_submit_btn.bind(on_press=popup.dismiss)
+        popup.ids.popup_delete_btn.bind(
+            on_press=lambda btn: self.delete_packing_item(packing_list, packing_item),
+            on_release=popup.dismiss,
+        )
+        popup.ids.popup_cancel_btn.bind(on_press=popup.dismiss)
+
+        popup.open()
+    
+    def delete_packing_item(self, packing_list, packing_item):
+        packing_list.remove(packing_item)
+        packing_list.write_yaml()
+        self.parent.parent.parent.update_layout(packing_list=packing_list)
+
+    
     def update_changes(self, txt):
         self.text = txt
