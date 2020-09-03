@@ -2,20 +2,31 @@
 
 <HomeScreen>:
     GridLayout:
-        cols: 3
+        cols: 2
         Button:
             text: "Create Packing List"
-            on_press: root.create_packing_list_screen()
+            on_press: root.manager.current = "create_packing_list_screen"
         Button:
             text: "Select Packing List"
             on_press: root.select_packing_list_screen()
         Button:
-            text: "Load Packing List"
-            on_press: root.packing_list_screen()
+            text: "Update Packing List"
+            on_press: root.update_packing_list_screen()
+        Button:
+            text: "Delete Packing List"
+            on_press: root.delete_packing_list_screen()
+
+<TopBar@GridLayout>:
+    cols: 1
+    Button:
+        text: "Home Screen"
+        on_press: root.parent.parent.manager.current = "home_screen"
+
 
 <CreatePackingListScreen>:
     GridLayout:
         cols: 1
+        TopBar:
         Label:
             text: "Create Packing List Screen"
         GridLayout:
@@ -43,18 +54,45 @@
             on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
 
 <SelectPackingListScreen>:
+    GridLayout:
+        cols: 1
+        TopBar:
+        Label:
+            text: "Select Packing List"
+        SelectPackingListGrid:
+            id: grid
 
+<SelectPackingListGrid@GridLayout>:
+    cols: 1
+
+<UpdatePackingListScreen>:
+    GridLayout:
+        cols: 1
+        TopBar:
+        Label:
+            text: "Update Packing List"
+
+<DeletePackingListScreen>:
+    GridLayout:
+        cols: 1
+        TopBar:
+        Label:
+            text: "Delete Packing List"
+        DeletePackingListGrid:
+            id: grid
+
+<DeletePackingListGrid@GridLayout>:
+    cols: 1
 
 <PackingListScreen>:
     BoxLayout:
         orientation: "vertical"
-
+        TopBar:
         GridLayout:
             cols: 1
             Button: 
                 text: "Select Packing List Screen"
                 on_press: root.select_packing_list_screen()
-
         GridLayout:
             size_hint: 1, None
             size_hint_y: None
@@ -95,5 +133,9 @@
         name: "create_packing_list_screen"
     SelectPackingListScreen:
         name: "select_packing_list_screen"
+    DeletePackingListScreen:
+        name: "delete_packing_list_screen"
+    UpdatePackingListScreen:
+        name: "update_packing_list_screen"
     PackingListScreen:
         name: "packing_list_screen"
