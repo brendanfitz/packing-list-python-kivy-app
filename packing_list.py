@@ -10,13 +10,38 @@ class PackingItem(object):
     def __init__(self, item_name, count, packed=False):
         self.item_name = item_name
         self.count = count
-        self.packed = False 
+        self.packed = packed
     
     def pack(self):
         self.packed = True
 
     def unpack(self):
-        self.packed = True
+        self.packed = False
+    
+    def set_packed_status(self, i):
+        print('...' + i.lower() + '...')
+        if i.lower() in ('yes', 'y'):
+            print('packing...')
+            self.pack()
+        elif i.lower() in ('no', 'n'):
+            print('unpacking...')
+            self.unpack()
+        else:
+            raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
+
+    @staticmethod
+    def process_packed_status(i):
+        if i.lower() in ('yes', 'y'):
+            return True
+        elif i.lower() in ('no', 'n'):
+            return False
+        raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
+    
+    def get_packed_status(self):
+        print(self.item_name, self.packed)
+        if self.packed:
+            return 'Yes'
+        return 'No'
     
     def __str__(self):
         return f"{self.item_name:<30}{self.count:>10}{self.packed:>10}"
