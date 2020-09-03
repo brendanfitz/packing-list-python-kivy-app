@@ -35,9 +35,11 @@ class RV(BoxLayout):
             packing_list = PackingList.read_yaml(filename + '.yaml')
         else:
             filename = packing_list.create_filename()[:-5]
+
         self.data_items.clear()
+
         if not packing_list:
-            self.data_items.append('')
+            self.data_items.append(('', '', 'No Items have been idea. Create below'))
         else:
             for item in packing_list:
                 self.data_items.append((filename, item.item_name, item.item_name))
