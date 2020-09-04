@@ -5,14 +5,36 @@
         cols: 1
         TopBar:
         GridLayout:
-            cols: 2
+            cols: 1
             padding: 15, 15
             spacing: 20, 20
+            Label:
+                text: "Create Packing List"
+            GridLayout:
+                cols: 3
+                TextInput:
+                    id: trip_name 
+                    hint_text: "Trip Name"
+                    write_tab: False
+                    text: "Europe"
+                TextInput:
+                    id: start_date
+                    hint_text: "Start Date"
+                    write_tab: False
+                    text: "2020-01-30"
+                TextInput:
+                    id: end_date
+                    hint_text: "End Date"
+                    write_tab: False
+                    text: "2020-02-08"
+            Label:
+                id: input_error
+                text: ""
             Button:
                 text: "Create Packing List"
-                on_press: root.manager.current = "create_packing_list_screen"
+                on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
             Button:
-                text: "Select Packing List"
+                text: "Load Packing List"
                 on_press: root.select_packing_list_screen()
 
 <TopBar@GridLayout>:
@@ -38,33 +60,6 @@
     GridLayout:
         cols: 1
         TopBar:
-        GridLayout:
-            cols: 1
-            Label:
-                text: "Create Packing List Screen"
-            GridLayout:
-                cols: 3
-                TextInput:
-                    id: trip_name 
-                    hint_text: "Trip Name"
-                    write_tab: False
-                    text: "Europe"
-                TextInput:
-                    id: start_date
-                    hint_text: "Start Date"
-                    write_tab: False
-                    text: "2020-01-30"
-                TextInput:
-                    id: end_date
-                    hint_text: "End Date"
-                    write_tab: False
-                    text: "2020-02-08"
-            Label:
-                id: input_error
-                text: ""
-            Button:
-                text: "Submit"
-                on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
 
 <SelectPackingListScreen>:
     GridLayout:
@@ -216,8 +211,6 @@
 <RootWidget>:
     HomeScreen:
         name: "home_screen"
-    CreatePackingListScreen:
-        name: "create_packing_list_screen"
     SelectPackingListScreen:
         name: "select_packing_list_screen"
     PackingListScreen:
