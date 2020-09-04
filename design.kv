@@ -14,12 +14,6 @@
             Button:
                 text: "Select Packing List"
                 on_press: root.select_packing_list_screen()
-            Button:
-                text: "Update Packing List"
-                on_press: root.update_packing_list_screen()
-            Button:
-                text: "Delete Packing List"
-                on_press: root.delete_packing_list_screen()
 
 <TopBar@GridLayout>:
     cols: 2
@@ -84,31 +78,7 @@
                 id: grid
                 cols: 2
 
-<UpdatePackingListScreen>:
-    GridLayout:
-        cols: 1
-        TopBar:
-        GridLayout:
-            cols: 1
-            Label:
-                text: "Update Packing List"
-            GridLayout:
-                id: grid
-                cols: 2
-
-<DeletePackingListScreen>:
-    GridLayout:
-        cols: 1
-        TopBar:
-        GridLayout:
-            cols: 1
-            Label:
-                text: "Delete Packing List"
-            GridLayout:
-                cols: 1
-                id: grid
-
-<PackingListPopUp>:
+<UpdatePackingListPopUp>:
     GridLayout:
         cols: 1
         GridLayout:
@@ -156,10 +126,19 @@
                 RV:
                     id: dataview
             GridLayout:
-                cols: 1
+                cols: 3
+                padding: 15, 15
+                spacing: 20, 20
                 Button:
                     id: create_item_btn
                     text: "Create Item"
+                Button:
+                    id: update_packing_list_btn
+                    text: "Update Packing List"
+                Button:
+                    id: delete_packing_list_btn
+                    text: "Delete Packing List"
+                    on_press: root.delete_packing_list()
 
 <RV>:
     RecycleView:
@@ -241,9 +220,5 @@
         name: "create_packing_list_screen"
     SelectPackingListScreen:
         name: "select_packing_list_screen"
-    DeletePackingListScreen:
-        name: "delete_packing_list_screen"
-    UpdatePackingListScreen:
-        name: "update_packing_list_screen"
     PackingListScreen:
         name: "packing_list_screen"
