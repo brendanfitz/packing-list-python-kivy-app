@@ -6,7 +6,7 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from utils.datepicker import DatePicker
-from screens.packing_list_screens import LoadPackingListScreen
+from screens.load_packing_list_screen import LoadPackingListScreen
 from screens.packing_list_item_screens import PackingListScreen
 from screens.packing_list_table_widgets import RV
 
