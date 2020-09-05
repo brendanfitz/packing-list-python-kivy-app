@@ -128,17 +128,21 @@
                 Label:
                     text: "Packed"
             BoxLayout:
-                padding: 15, 15
                 RV:
+                    padding: 0
+                    spacing: 0
                     id: dataview
             GridLayout:
                 cols: 1
                 size_hint: 1, 0.4
                 padding: 15, 15
                 spacing: 20, 20
-                Button:
-                    id: create_item_btn
-                    text: "Create Item"
+                RelativeLayout:
+                    Button:
+                        id: create_item_btn
+                        text: "Create Item"
+                        size_hint: 0.3, 0.7
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
                 GridLayout:
                     cols: 2
                     RelativeLayout:
@@ -173,6 +177,10 @@
             orientation: 'vertical'
             multiselect: True
             touch_multiselect: True
+
+<ItemDataButton@Button>:
+    background_color: 255, 255, 255, 255 
+    color: 0, 0, 0, 1
 
 <PackingListItemPopUp>:
     GridLayout:
