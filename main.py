@@ -47,11 +47,14 @@ class HomeScreen(Screen):
         self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 
+
 class RootWidget(ScreenManager):
     pass
 
+
 class TopBar(GridLayout):
     pass
+
 
 class MainApp(App):
     def build(self):
