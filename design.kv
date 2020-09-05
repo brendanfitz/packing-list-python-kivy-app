@@ -8,6 +8,9 @@
             cols: 1
             padding: 15, 15
             spacing: 20, 20
+            Label:
+                text: "Packing List App"
+                font_size: "20sp"
             GridLayout:
                 cols: 3
                 padding: 15, 15
@@ -25,15 +28,22 @@
                     id: end_date
                     hint_text: "End Date"
                     halign: 'center'
+
+            RelativeLayout:
+                Button:
+                    text: "Create Packing List"
+                    on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
+                    size_hint: 0.3, 0.5
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.6}
             Label:
                 id: input_error
                 text: ""
-            Button:
-                text: "Create Packing List"
-                on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
-            Button:
-                text: "Load Packing List"
-                on_press: root.select_packing_list_screen()
+            RelativeLayout:
+                Button:
+                    text: "Load Packing List"
+                    on_press: root.select_packing_list_screen()
+                    size_hint: 0.3, 0.5
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.6}
 
 <DatePicker>:
     pHint: .3, .3
