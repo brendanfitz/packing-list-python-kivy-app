@@ -106,7 +106,8 @@ class DatePicker(TextInput):
     def update_value(self, inst):
         """ Update textinput value on popup close """
             
-        self.text = "%s-%s-%s" % tuple(self.cal.active_date)
+        day, month, year = tuple(self.cal.active_date)
+        self.text = f"{year:4.0f}-{month:02.0f}-{day:02.0f}"
         self.focus = False
 
 class CalendarWidget(RelativeLayout):
@@ -452,7 +453,7 @@ def today_date_list():
 def today_date():
     """ Return today date dd.mm.yyyy like 28.02.2015 """
 
-    return datetime.now().strftime("%d/%m/%Y")
+    return datetime.now().strftime("%Y-%m-%d")
 
 
 
