@@ -8,16 +8,7 @@ from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.popup import Popup
-
-class PackingListItemUpdatePopUp(Popup):
-    obj = ObjectProperty(None)
-    obj_text = StringProperty("")
-
-    def __init__(self, obj, **kwargs):
-        super(PackingListItemUpdatePopUp, self).__init__(**kwargs)
-        self.obj = obj
-        self.obj_text = obj.text
-
+from screens.popups import PackingListItemUpdatePopUp
 
 class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleGridLayout):

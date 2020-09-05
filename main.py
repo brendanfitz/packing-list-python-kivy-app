@@ -5,10 +5,10 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
-from datepicker import DatePicker
-from packing_list_screens import LoadPackingListScreen
-from packing_list_item_screens import PackingListScreen
-from packing_list_table_widgets import RV
+from utils.datepicker import DatePicker
+from screens.packing_list_screens import LoadPackingListScreen
+from screens.packing_list_item_screens import PackingListScreen
+from screens.packing_list_table_widgets import RV
 
 Builder.load_file('design.kv')
 

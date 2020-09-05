@@ -2,6 +2,7 @@ import os
 from packing_list import PackingList, PackingItem
 from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
+from screens.popups import PackingListItemPopUp, UpdatePackingListPopup
 
 class PackingListScreen(Screen):
     current_filename = None
@@ -80,9 +81,3 @@ class PackingListScreen(Screen):
         filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
         os.remove(filepath)
         self.manager.current = 'home_screen'
-
-class PackingListItemPopUp(Popup):
-    pass
-
-class UpdatePackingListPopup(Popup):
-    pass

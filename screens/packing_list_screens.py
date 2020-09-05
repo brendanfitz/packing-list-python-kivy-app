@@ -1,3 +1,4 @@
+import os
 from packing_list import PackingList, PackingItem
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
@@ -5,8 +6,7 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput 
-from packing_list_item_screens import PackingListScreen
-import os
+from screens.packing_list_item_screens import PackingListScreen
 
 class LoadPackingListScreen(Screen):
 
