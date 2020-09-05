@@ -80,7 +80,7 @@ class DatePicker(TextInput):
         
     def init_ui(self):
         
-        self.text = today_date()
+        self.text = ''
         # Calendar
         self.cal = CalendarWidget(as_popup=True, 
                                   touch_switch=self.touch_switch)
