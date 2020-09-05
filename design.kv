@@ -8,25 +8,23 @@
             cols: 1
             padding: 15, 15
             spacing: 20, 20
-            Label:
-                text: "Create Packing List"
             GridLayout:
                 cols: 3
+                padding: 15, 15
+                spacing: 20, 20
                 TextInput:
                     id: trip_name 
                     hint_text: "Trip Name"
+                    halign: 'center'
                     write_tab: False
-                    text: "Europe"
-                TextInput:
+                DatePicker:
                     id: start_date
                     hint_text: "Start Date"
-                    write_tab: False
-                    text: "2020-01-30"
-                TextInput:
+                    halign: 'center'
+                DatePicker:
                     id: end_date
                     hint_text: "End Date"
-                    write_tab: False
-                    text: "2020-02-08"
+                    halign: 'center'
             Label:
                 id: input_error
                 text: ""
@@ -36,6 +34,9 @@
             Button:
                 text: "Load Packing List"
                 on_press: root.select_packing_list_screen()
+
+<DatePicker>:
+    pHint: .3, .3
 
 <TopBar@GridLayout>:
     cols: 2
@@ -69,9 +70,12 @@
             cols: 1
             Label:
                 text: "Select Packing List"
+                size_hint: 1, 0.1
             GridLayout:
                 id: grid
-                cols: 2
+                cols: 1
+                padding: 15, 15
+                spacing: 20, 20
 
 <UpdatePackingListPopUp>:
     GridLayout:
@@ -83,14 +87,10 @@
                 id: trip_name
                 hint_text: "Trip Name"
                 write_tab: False
-            TextInput:
+            DatePicker:
                 id: start_date
-                hint_text: "Start Date"
-                write_tab: False
-            TextInput:
+            DatePicker:
                 id: end_date
-                hint_text: "End Date"
-                write_tab: False
         GridLayout:
             cols: 2
             Button:
@@ -118,22 +118,36 @@
                 Label:
                     text: "Packed"
             BoxLayout:
+                padding: 15, 15
                 RV:
                     id: dataview
             GridLayout:
-                cols: 3
+                cols: 1
+                size_hint: 1, 0.4
                 padding: 15, 15
                 spacing: 20, 20
                 Button:
                     id: create_item_btn
                     text: "Create Item"
-                Button:
-                    id: update_packing_list_btn
-                    text: "Update Packing List"
-                Button:
-                    id: delete_packing_list_btn
-                    text: "Delete Packing List"
-                    on_press: root.delete_packing_list()
+                GridLayout:
+                    cols: 2
+                    RelativeLayout:
+                        Button:
+                            id: update_packing_list_btn
+                            size_hint: .6, .6
+                            pos_hint: {'x':.2, 'y':.2}
+                            background_color: 1, 1, 1, 0
+                            color: 0.1, 0.7, 1, 0.7
+                            text: "Update Packing List"
+                    RelativeLayout:
+                        Button:
+                            id: delete_packing_list_btn
+                            size_hint: .6, .6
+                            pos_hint: {'x':.2, 'y':.2}
+                            background_color: 1, 1, 1, 0
+                            color: 1, 0, 0, 0.7
+                            text: "Delete Packing List"
+                            on_press: root.delete_packing_list()
 
 <RV>:
     RecycleView:
