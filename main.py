@@ -15,7 +15,21 @@ Builder.load_file('design.kv')
 class HomeScreen(Screen):
     def create_packing_list(self, trip_name, start_date, end_date):
         try:
-            packing_list = PackingList(trip_name.text, start_date.text, end_date.text)
+            trip_name = trip_name.text
+            start_date = start_date.text
+            end_date = end_date.text
+
+            if trip_name == '':
+                self.ids.input_error.text = "Please enter a Trip Date"
+                return
+            elif start_date == '':
+                self.ids.input_error.text = "Please enter a Start Date"
+                return
+            elif end_date == '':
+                self.ids.input_error.text = "Please enter an End Date"
+                return
+
+            packing_list = PackingList(trip_name, start_date, end_date)
             packing_list.write_yaml()
             filename = packing_list.create_filename()
             PackingListScreen.current_filename = filename
