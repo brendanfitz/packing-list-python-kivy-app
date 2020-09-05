@@ -6,7 +6,7 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput 
-from screens.packing_list_item_screens import PackingListScreen
+from screens.packing_list_screen import PackingListScreen
 
 class LoadPackingListScreen(Screen):
 
