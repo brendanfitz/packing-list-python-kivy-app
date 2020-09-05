@@ -2,88 +2,92 @@
 
 <HomeScreen>:
     GridLayout:
-        cols: 2
-        Button:
-            text: "Create Packing List"
-            on_press: root.manager.current = "create_packing_list_screen"
-        Button:
-            text: "Select Packing List"
-            on_press: root.select_packing_list_screen()
-        Button:
-            text: "Update Packing List"
-            on_press: root.update_packing_list_screen()
-        Button:
-            text: "Delete Packing List"
-            on_press: root.delete_packing_list_screen()
+        cols: 1
+        TopBar:
+        GridLayout:
+            cols: 1
+            padding: 15, 15
+            spacing: 20, 20
+            Label:
+                text: "Packing List App"
+                font_size: "20sp"
+            GridLayout:
+                cols: 3
+                padding: 15, 15
+                spacing: 20, 20
+                TextInput:
+                    id: trip_name 
+                    hint_text: "Trip Name"
+                    halign: 'center'
+                    write_tab: False
+                DatePicker:
+                    id: start_date
+                    hint_text: "Start Date"
+                    halign: 'center'
+                DatePicker:
+                    id: end_date
+                    hint_text: "End Date"
+                    halign: 'center'
+
+            RelativeLayout:
+                Button:
+                    text: "Create Packing List"
+                    on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
+                    size_hint: 0.3, 0.5
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+            Label:
+                id: input_error
+                text: ""
+            RelativeLayout:
+                Button:
+                    text: "Load Packing List"
+                    on_press: root.load_packing_list_screen()
+                    size_hint: 0.3, 0.5
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+
+<DatePicker>:
+    pHint: .3, .3
 
 <TopBar@GridLayout>:
-    cols: 1
-    Button:
-        text: "Home Screen"
-        on_press: root.parent.parent.manager.current = "home_screen"
+    cols: 2
+    size_hint: 1, 0.2
+    padding: 30, 30 
+    spacing: 30, 30 
+    RelativeLayout:
+        Button:
+            text: "Home Screen"
+            size_hint: 0.5, 0.5
+            pos_hint: {'center_x': 0.25, 'center_y': 0.75}
+            on_press: root.parent.parent.manager.current = "home_screen"
+    RelativeLayout:
+        Button:
+            text: "Quit"
+            size_hint: 0.5, 0.5
+            pos_hint: {'center_x': 0.75, 'center_y': 0.75}
+            on_press: app.stop()
 
 
 <CreatePackingListScreen>:
     GridLayout:
         cols: 1
         TopBar:
-        Label:
-            text: "Create Packing List Screen"
-        GridLayout:
-            cols: 3
-            TextInput:
-                id: trip_name 
-                hint_text: "Trip Name"
-                write_tab: False
-                text: "Europe"
-            TextInput:
-                id: start_date
-                hint_text: "Start Date"
-                write_tab: False
-                text: "2020-01-30"
-            TextInput:
-                id: end_date
-                hint_text: "End Date"
-                write_tab: False
-                text: "2020-02-08"
-        Label:
-            id: input_error
-            text: ""
-        Button:
-            text: "Submit"
-            on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
 
-<SelectPackingListScreen>:
+<LoadPackingListScreen>:
     GridLayout:
         cols: 1
         TopBar:
-        Label:
-            text: "Select Packing List"
-        GridLayout:
-            id: grid
-            cols: 1
-
-<UpdatePackingListScreen>:
-    GridLayout:
-        cols: 1
-        TopBar:
-        Label:
-            text: "Update Packing List"
-        GridLayout:
-            id: grid
-            cols: 1
-
-<DeletePackingListScreen>:
-    GridLayout:
-        cols: 1
-        TopBar:
-        Label:
-            text: "Delete Packing List"
         GridLayout:
             cols: 1
-            id: grid
+            Label:
+                text: "Load Packing List"
+                size_hint: 1, 0.1
+            GridLayout:
+                id: grid
+                cols: 1
+                padding: 30, 30 
+                spacing: 30, 30 
 
-<PackingListPopUp>:
+<UpdatePackingListPopUp>:
     GridLayout:
         cols: 1
         GridLayout:
@@ -93,14 +97,10 @@
                 id: trip_name
                 hint_text: "Trip Name"
                 write_tab: False
-            TextInput:
+            DatePicker:
                 id: start_date
-                hint_text: "Start Date"
-                write_tab: False
-            TextInput:
+            DatePicker:
                 id: end_date
-                hint_text: "End Date"
-                write_tab: False
         GridLayout:
             cols: 2
             Button:
@@ -111,28 +111,57 @@
                 text: 'Cancel'
 
 <PackingListScreen>:
-    BoxLayout:
-        orientation: "vertical"
+    GridLayout:
+        cols: 1
         TopBar:
-        GridLayout:
-            size_hint: 1, None
-            size_hint_y: None
-            height: 25
-            cols: 3
-            Label:
-                text: "Item Name"
-            Label:
-                text: "Count"
-            Label:
-                text: "Packed"
         BoxLayout:
-            RV:
-                id: dataview
-        GridLayout:
-            cols: 1
-            Button:
-                id: create_item_btn
-                text: "Create Item"
+            orientation: "vertical"
+            GridLayout:
+                size_hint: 1, None
+                size_hint_y: None
+                height: 25
+                cols: 3
+                Label:
+                    text: "Item Name"
+                Label:
+                    text: "Count"
+                Label:
+                    text: "Packed"
+            BoxLayout:
+                RV:
+                    padding: 0
+                    spacing: 0
+                    id: dataview
+            GridLayout:
+                cols: 1
+                size_hint: 1, 0.4
+                padding: 15, 15
+                spacing: 20, 20
+                RelativeLayout:
+                    Button:
+                        id: create_item_btn
+                        text: "Create Item"
+                        size_hint: 0.3, 0.7
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                GridLayout:
+                    cols: 2
+                    RelativeLayout:
+                        Button:
+                            id: update_packing_list_btn
+                            size_hint: .6, .6
+                            pos_hint: {'x':.2, 'y':.2}
+                            background_color: 1, 1, 1, 0
+                            color: 0.1, 0.7, 1, 0.7
+                            text: "Update Packing List"
+                    RelativeLayout:
+                        Button:
+                            id: delete_packing_list_btn
+                            size_hint: .6, .6
+                            pos_hint: {'x':.2, 'y':.2}
+                            background_color: 1, 1, 1, 0
+                            color: 1, 0, 0, 0.7
+                            text: "Delete Packing List"
+                            on_press: root.delete_packing_list()
 
 <RV>:
     RecycleView:
@@ -148,6 +177,10 @@
             orientation: 'vertical'
             multiselect: True
             touch_multiselect: True
+
+<ItemDataButton@Button>:
+    background_color: 255, 255, 255, 255 
+    color: 0, 0, 0, 1
 
 <PackingListItemPopUp>:
     GridLayout:
@@ -210,13 +243,7 @@
 <RootWidget>:
     HomeScreen:
         name: "home_screen"
-    CreatePackingListScreen:
-        name: "create_packing_list_screen"
-    SelectPackingListScreen:
-        name: "select_packing_list_screen"
-    DeletePackingListScreen:
-        name: "delete_packing_list_screen"
-    UpdatePackingListScreen:
-        name: "update_packing_list_screen"
+    LoadPackingListScreen:
+        name: "load_packing_list_screen"
     PackingListScreen:
         name: "packing_list_screen"

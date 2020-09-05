@@ -46,7 +46,10 @@ class RV(BoxLayout):
                 self.data_items.append((filename, item.item_name, item.count))
                 self.data_items.append((filename, item.item_name, item.get_packed_status())) 
 
-class SelectableButton(RecycleDataViewBehavior, Button):
+class ItemDataButton(Button):
+    pass
+
+class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
     ''' Add selection support to the Button '''
     index = None
     selected = BooleanProperty(False)

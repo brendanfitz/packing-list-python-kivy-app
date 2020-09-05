@@ -38,7 +38,6 @@ class PackingItem(object):
         raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
     
     def get_packed_status(self):
-        print(self.item_name, self.packed)
         if self.packed:
             return 'Yes'
         return 'No'
