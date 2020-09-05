@@ -41,7 +41,7 @@
             RelativeLayout:
                 Button:
                     text: "Load Packing List"
-                    on_press: root.select_packing_list_screen()
+                    on_press: root.load_packing_list_screen()
                     size_hint: 0.3, 0.5
                     pos_hint: {'center_x': 0.5, 'center_y': 0.6}
 
@@ -72,14 +72,14 @@
         cols: 1
         TopBar:
 
-<SelectPackingListScreen>:
+<LoadPackingListScreen>:
     GridLayout:
         cols: 1
         TopBar:
         GridLayout:
             cols: 1
             Label:
-                text: "Select Packing List"
+                text: "Load Packing List"
                 size_hint: 1, 0.1
             GridLayout:
                 id: grid
@@ -235,7 +235,7 @@
 <RootWidget>:
     HomeScreen:
         name: "home_screen"
-    SelectPackingListScreen:
-        name: "select_packing_list_screen"
+    LoadPackingListScreen:
+        name: "load_packing_list_screen"
     PackingListScreen:
         name: "packing_list_screen"

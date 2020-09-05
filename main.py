@@ -6,7 +6,7 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from datepicker import DatePicker
-from packing_list_screens import SelectPackingListScreen
+from packing_list_screens import LoadPackingListScreen
 from packing_list_item_screens import PackingListScreen
 from packing_list_table_widgets import RV
 
@@ -42,8 +42,8 @@ class HomeScreen(Screen):
         except ValueError:
             self.ids.input_error.text = "Date Input must be in 'YYYY-MM-DD' form. Please try again."
     
-    def select_packing_list_screen(self):
-        screen_name ='select_packing_list_screen'
+    def load_packing_list_screen(self):
+        screen_name ='load_packing_list_screen'
         self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
 

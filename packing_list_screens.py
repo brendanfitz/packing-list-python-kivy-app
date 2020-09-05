@@ -7,7 +7,7 @@ from kivy.uix.textinput import TextInput
 from packing_list_item_screens import PackingListScreen
 import os
 
-class SelectPackingListScreen(Screen):
+class LoadPackingListScreen(Screen):
 
     def update_layout(self):
         grid = self.ids.grid
