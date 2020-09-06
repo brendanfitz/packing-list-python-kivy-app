@@ -9,6 +9,11 @@ from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.popup import Popup
 from screens.popups import PackingListItemUpdatePopUp
+from utils.hoverable import HoverBehavior 
+
+class HoverableButton(HoverBehavior, Button):
+    pass
+
 
 class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleGridLayout):
