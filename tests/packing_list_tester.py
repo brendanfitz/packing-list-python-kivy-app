@@ -22,6 +22,5 @@ pl.write_yaml()
 
 pl2 = PackingList.read_yaml('Austin 2020-08-28 to 2020-09-07.yaml')
 print(pl2)
-print(pl2.item_list)
 
 print(PackingList.list_packing_lists())
