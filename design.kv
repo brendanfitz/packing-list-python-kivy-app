@@ -3,7 +3,26 @@
 <HomeScreen>:
     GridLayout:
         cols: 1
-        TopBar:
+        GridLayout:
+            cols: 2
+            size_hint: 1, 0.2
+            padding: 30, 30 
+            spacing: 30, 30 
+            RelativeLayout:
+                HoverableButton:
+                    text: "Load Packing List"
+                    on_press: root.load_packing_list_screen()
+                    size_hint: 0.5, 0.5
+                    pos_hint: {'center_x': 0.25, 'center_y': 0.75}
+                    background_color: 1, 1, 1, 0
+                    color: 0.1, 0.8, 1, 0.7
+                    opacity: 1 if self.hovered else 0.7
+            RelativeLayout:
+                Button:
+                    text: "Quit"
+                    size_hint: 0.5, 0.5
+                    pos_hint: {'center_x': 0.75, 'center_y': 0.75}
+                    on_press: app.stop()
         GridLayout:
             cols: 1
             padding: 15, 15
@@ -16,7 +35,7 @@
                 cols: 2
                 padding: 15, 15
                 spacing: 20, 20
-                size_hint: 1, 0.6
+                size_hint: 1, 0.7
                 Label:
                     text: "Trip Name"
                     size_hint: 0.33, 1
@@ -42,7 +61,6 @@
                     hint_text: "End Date"
                     halign: 'center'
                     padding: 15, 15
-
             RelativeLayout:
                 size_hint: 1, 0.1
                 Button:
@@ -55,16 +73,6 @@
                 id: input_error
                 text: ""
                 color: 1, 0, 0, 0.7
-            RelativeLayout:
-                size_hint: 1, 0.1
-                HoverableButton:
-                    text: "Load Packing List"
-                    on_press: root.load_packing_list_screen()
-                    size_hint: 0.6, 0.6
-                    pos_hint: {'x':.2, 'y':.2}
-                    background_color: 1, 1, 1, 0
-                    color: 0.1, 0.8, 1, 0.7
-                    opacity: 1 if self.hovered else 0.7
 
 <DatePicker>:
     pHint: .3, .3
@@ -86,7 +94,6 @@
             size_hint: 0.5, 0.5
             pos_hint: {'center_x': 0.75, 'center_y': 0.75}
             on_press: app.stop()
-
 
 <CreatePackingListScreen>:
     GridLayout:
