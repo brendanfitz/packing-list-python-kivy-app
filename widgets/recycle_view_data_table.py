@@ -1,12 +1,11 @@
-from packing_list import PackingList, PackingItem
-from kivy.app import App
+from packing_list import PackingList
+from kivy.properties import BooleanProperty, ListProperty 
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.button import Button
-from kivy.properties import BooleanProperty, ListProperty, StringProperty, ObjectProperty
-from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.popup import Popup
 from widgets.popups import PackingListItemUpdatePopUp
 

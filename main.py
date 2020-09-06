@@ -3,7 +3,6 @@ from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from utils.datepicker import DatePicker
 from screens.home_screen import HomeScreen 
 from screens.load_packing_list_screen import LoadPackingListScreen
