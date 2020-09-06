@@ -8,27 +8,18 @@ from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.popup import Popup
-
-class PackingListItemUpdatePopUp(Popup):
-    obj = ObjectProperty(None)
-    obj_text = StringProperty("")
-
-    def __init__(self, obj, **kwargs):
-        super(PackingListItemUpdatePopUp, self).__init__(**kwargs)
-        self.obj = obj
-        self.obj_text = obj.text
-
+from widgets.popups import PackingListItemUpdatePopUp
 
 class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleGridLayout):
     ''' Adds selection and focus behaviour to the view. '''
 
 
-class RV(BoxLayout):
+class RecycleViewDataTable(BoxLayout):
     data_items = ListProperty([])
 
     def __init__(self, **kwargs):
-        super(RV, self).__init__(**kwargs)
+        super(RecycleViewDataTable, self).__init__(**kwargs)
 
     def update_layout(self, filename=None, packing_list=None):
         if filename is not None:
@@ -39,7 +30,7 @@ class RV(BoxLayout):
         self.data_items.clear()
 
         if not packing_list:
-            self.data_items.append(('', '', 'No Items have been idea. Create below'))
+            self.data_items.append(('', '', 'No items have been added yet. Create below'))
         else:
             for item in packing_list:
                 self.data_items.append((filename, item.item_name, item.item_name))

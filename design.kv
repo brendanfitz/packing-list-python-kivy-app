@@ -39,11 +39,14 @@
                 id: input_error
                 text: ""
             RelativeLayout:
-                Button:
+                HoverableButton:
                     text: "Load Packing List"
                     on_press: root.load_packing_list_screen()
-                    size_hint: 0.3, 0.5
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+                    size_hint: 0.6, 0.6
+                    pos_hint: {'x':.2, 'y':.2}
+                    background_color: 1, 1, 1, 0
+                    color: 0.1, 0.8, 1, 0.7
+                    opacity: 1 if self.hovered else 0.7
 
 <DatePicker>:
     pHint: .3, .3
@@ -128,7 +131,7 @@
                 Label:
                     text: "Packed"
             BoxLayout:
-                RV:
+                RecycleViewDataTable:
                     padding: 0
                     spacing: 0
                     id: dataview
@@ -146,24 +149,26 @@
                 GridLayout:
                     cols: 2
                     RelativeLayout:
-                        Button:
+                        HoverableButton:
                             id: update_packing_list_btn
                             size_hint: .6, .6
                             pos_hint: {'x':.2, 'y':.2}
                             background_color: 1, 1, 1, 0
+                            opacity: 1 if self.hovered else 0.7
                             color: 0.1, 0.7, 1, 0.7
                             text: "Update Packing List"
                     RelativeLayout:
-                        Button:
+                        HoverableButton:
                             id: delete_packing_list_btn
                             size_hint: .6, .6
                             pos_hint: {'x':.2, 'y':.2}
                             background_color: 1, 1, 1, 0
+                            opacity: 1 if self.hovered else 0.7
                             color: 1, 0, 0, 0.7
                             text: "Delete Packing List"
                             on_press: root.delete_packing_list()
 
-<RV>:
+<RecycleViewDataTable>:
     RecycleView:
         viewclass: 'SelectableButton'
         data: [{'text': str(x[2]), 'filename': x[0], 'packing_item': x[1]} for x in root.data_items]
@@ -178,7 +183,7 @@
             multiselect: True
             touch_multiselect: True
 
-<ItemDataButton@Button>:
+<ItemDataButton>:
     background_color: 255, 255, 255, 255 
     color: 0, 0, 0, 1
 
