@@ -11,34 +11,52 @@
             Label:
                 text: "Packing List App"
                 font_size: "20sp"
+                size_hint: 1, 0.1
             GridLayout:
-                cols: 3
+                cols: 2
                 padding: 15, 15
                 spacing: 20, 20
+                size_hint: 1, 0.6
+                Label:
+                    text: "Trip Name"
+                    size_hint: 0.33, 1
                 TextInput:
                     id: trip_name 
                     hint_text: "Trip Name"
                     halign: 'center'
                     write_tab: False
+                    padding: 15, 15
+                Label:
+                    text: "Start Date"
+                    size_hint: 0.33, 1
                 DatePicker:
                     id: start_date
                     hint_text: "Start Date"
                     halign: 'center'
+                    padding: 15, 15
+                Label:
+                    text: "End Date"
+                    size_hint: 0.33, 1
                 DatePicker:
                     id: end_date
                     hint_text: "End Date"
                     halign: 'center'
+                    padding: 15, 15
 
             RelativeLayout:
+                size_hint: 1, 0.1
                 Button:
                     text: "Create Packing List"
                     on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
                     size_hint: 0.3, 0.5
                     pos_hint: {'center_x': 0.5, 'center_y': 0.6}
             Label:
+                size_hint: 1, 0.1
                 id: input_error
                 text: ""
+                color: 1, 0, 0, 0.7
             RelativeLayout:
+                size_hint: 1, 0.1
                 HoverableButton:
                     text: "Load Packing List"
                     on_press: root.load_packing_list_screen()
