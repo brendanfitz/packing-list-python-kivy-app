@@ -3,7 +3,6 @@ import re
 import yaml
 import datetime as dt
 import pandas as pd
-from collections import OrderedDict
 
 class PackingItem(object):
 
@@ -19,7 +18,6 @@ class PackingItem(object):
         self.packed = False
     
     def set_packed_status(self, i):
-        print('...' + i.lower() + '...')
         if i.lower() in ('yes', 'y'):
             print('packing...')
             self.pack()
