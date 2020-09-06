@@ -131,7 +131,7 @@
                 Label:
                     text: "Packed"
             BoxLayout:
-                RV:
+                RecycleViewDataTable:
                     padding: 0
                     spacing: 0
                     id: dataview
@@ -168,7 +168,7 @@
                             text: "Delete Packing List"
                             on_press: root.delete_packing_list()
 
-<RV>:
+<RecycleViewDataTable>:
     RecycleView:
         viewclass: 'SelectableButton'
         data: [{'text': str(x[2]), 'filename': x[0], 'packing_item': x[1]} for x in root.data_items]

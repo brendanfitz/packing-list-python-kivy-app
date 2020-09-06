@@ -8,23 +8,18 @@ from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.popup import Popup
-from screens.popups import PackingListItemUpdatePopUp
-from utils.hoverable import HoverBehavior 
-
-class HoverableButton(HoverBehavior, Button):
-    pass
-
+from widgets.popups import PackingListItemUpdatePopUp
 
 class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleGridLayout):
     ''' Adds selection and focus behaviour to the view. '''
 
 
-class RV(BoxLayout):
+class RecycleViewDataTable(BoxLayout):
     data_items = ListProperty([])
 
     def __init__(self, **kwargs):
-        super(RV, self).__init__(**kwargs)
+        super(RecycleViewDataTable, self).__init__(**kwargs)
 
     def update_layout(self, filename=None, packing_list=None):
         if filename is not None:

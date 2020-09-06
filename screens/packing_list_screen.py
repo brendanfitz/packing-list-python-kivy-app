@@ -2,7 +2,7 @@ import os
 from packing_list import PackingList, PackingItem
 from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
-from screens.popups import PackingListItemPopUp, UpdatePackingListPopup
+from widgets.popups import PackingListItemPopUp, UpdatePackingListPopup
 
 class PackingListScreen(Screen):
     current_filename = None
