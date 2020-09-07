@@ -40,9 +40,14 @@ class PackingListScreen(Screen):
         packing_list = PackingListScreen.current_packing_list
 
         # update packing list from TextInputs
-        packing_list.trip_name = popup.ids.trip_name.text
-        packing_list.start_date = PackingList.check_date(popup.ids.start_date.text)
-        packing_list.end_date = PackingList.check_date(popup.ids.end_date.text)
+        packing_list_inputs = popup.ids.packing_list_inputs
+        trip_name = packing_list_inputs.ids.trip_name.text
+        start_date = packing_list_inputs.ids.start_date.text
+        end_date = packing_list_inputs.ids.end_date.text
+
+        packing_list.trip_name = trip_name
+        packing_list.start_date = PackingList.check_date(start_date)
+        packing_list.end_date = PackingList.check_date(end_date)
         packing_list.write_yaml()
 
         # remove old filename
@@ -64,9 +69,10 @@ class PackingListScreen(Screen):
 
         popup = UpdatePackingListPopup(title="Update Packing List", auto_dismiss=False)
 
-        popup.ids.trip_name.text = packing_list.trip_name
-        popup.ids.start_date.text = packing_list.start_date_tostring()
-        popup.ids.end_date.text = packing_list.end_date_tostring()
+        packing_list_inputs = popup.ids.packing_list_inputs
+        packing_list_inputs.ids.trip_name.text = packing_list.trip_name
+        packing_list_inputs.ids.start_date.text = packing_list.start_date_tostring()
+        packing_list_inputs.ids.end_date.text = packing_list.end_date_tostring()
 
         popup.ids.submit_btn.bind(
             on_press=lambda btn: self.update_packing_list(btn, popup),
