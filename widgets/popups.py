@@ -14,6 +14,7 @@ class PackingListItemUpdatePopUp(Popup):
     obj_text = StringProperty("")
 
     def __init__(self, obj, **kwargs):
+        kwargs['size_hint'] = (0.75, 0.75)
         super(PackingListItemUpdatePopUp, self).__init__(**kwargs)
         self.obj = obj
         self.obj_text = obj.text

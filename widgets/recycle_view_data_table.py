@@ -66,7 +66,7 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         packing_item = next(
             filter(lambda x: x.item_name == self.packing_item, packing_list)
         )
-        popup = PackingListItemUpdatePopUp(self)
+        popup = PackingListItemUpdatePopUp(self, title="Update Item")
         popup.ids.item_name.text = packing_item.item_name
         popup.ids.count.text = str(packing_item.count)
         popup.ids.packed.text = packing_item.get_packed_status()
