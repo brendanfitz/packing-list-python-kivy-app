@@ -2,7 +2,9 @@ from kivy.properties import StringProperty, ObjectProperty
 from kivy.uix.popup import Popup
 
 class PackingListItemPopUp(Popup):
-    pass
+    def __init__(self, **kwargs):
+        kwargs['size_hint'] = (0.75, 0.75)
+        super(PackingListItemPopUp, self).__init__(**kwargs)
 
 
 class UpdatePackingListPopup(Popup):

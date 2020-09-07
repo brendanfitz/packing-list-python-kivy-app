@@ -212,27 +212,36 @@
 <PackingListItemPopUp>:
     GridLayout:
         cols: 1
+        padding: 15, 15
+        spacing: 15, 15
         PackingListItemInputs:
             id: packing_list_item_inputs
         GridLayout:
             cols: 2
-            Button:
-                id: submit_btn
-                text: 'Submit'
-            Button:
-                id: cancel_btn
-                text: 'Cancel'
+            padding: 45, 45
+            RelativeLayout:
+                Button:
+                    id: submit_btn
+                    text: 'Submit'
+                    size_hint: 1, 0.25
+                    pos_hint: {'center_x': 0.4, 'center_y': 0.5}
+            RelativeLayout:
+                Button:
+                    id: cancel_btn
+                    text: 'Cancel'
+                    size_hint: 1, 0.25
+                    pos_hint: {'center_x': 0.6, 'center_y': 0.5}
 
 <PackingListItemUpdatePopUp>:
     GridLayout:
         cols: 1
-        padding: 30, 30 
-        spacing: 30, 30 
+        padding: 15, 15
+        spacing: 15, 15 
         PackingListItemInputs:
             id: packing_list_item_inputs
         GridLayout:
             cols: 3
-            padding: 60, 60
+            padding: 45, 45
             RelativeLayout:
                 Button:
                     id: popup_submit_btn
