@@ -11,28 +11,25 @@ class PackingItem(object):
         self.count = count
         self.packed = packed
     
-    def pack(self):
-        self.packed = True
+    @property
+    def packed(self):
+        return self._packed
 
-    def unpack(self):
-        self.packed = False
-    
-    def set_packed_status(self, i):
+    @packed.setter
+    def packed(self, i):
         if isinstance(i, bool):
             if i:
-                self.pack()
+                self._packed = True
             else:
-                self.unpack()
+                self._packed = False 
         elif isinstance(i, str):
             if i.lower() in ('yes', 'y'):
-                print('packing...')
-                self.pack()
+                self._packed = True
             elif i.lower() in ('no', 'n'):
-                print('unpacking...')
-                self.unpack()
+                self._packed = False 
         else:
             raise ValueError("i must be True, False, 'yes', 'y', 'no' or 'n'")
-
+        
     @staticmethod
     def process_packed_status(i):
         if isinstance(i, bool):
@@ -44,13 +41,13 @@ class PackingItem(object):
                 return False
         raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
     
-    def get_packed_status(self):
+    def packed_yesno(self):
         if self.packed:
             return 'Yes'
         return 'No'
     
     def __str__(self):
-        return f"{self.item_name:<30}{self.count:>10}{self.packed:>10}"
+        return f"{self.item_name:<30}{self.count:>10}{self.packed_yesno():>10}"
 
     def to_list(self):
         return [self.item_name, self.count, self.packed]

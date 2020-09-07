@@ -35,7 +35,7 @@ class RecycleViewDataTable(BoxLayout):
             for item in packing_list:
                 self.data_items.append((filename, item.item_name, item.item_name))
                 self.data_items.append((filename, item.item_name, item.count))
-                self.data_items.append((filename, item.item_name, item.get_packed_status())) 
+                self.data_items.append((filename, item.item_name, item.packed_yesno())) 
 
 class ItemDataButton(Button):
     pass
@@ -97,7 +97,7 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
 
         packing_item.item_name = packing_list_item_inputs.ids.item_name.text
         packing_item.count = int(packing_list_item_inputs.ids.count.text)
-        packing_item.set_packed_status(packing_list_item_inputs.ids.packed.active)
+        packing_item.packed = packing_list_item_inputs.ids.packed.active
         packing_list.write_yaml()
         self.parent.parent.parent.update_layout(packing_list=packing_list)
 
