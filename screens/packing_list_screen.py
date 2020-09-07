@@ -38,7 +38,6 @@ class PackingListScreen(Screen):
 
         packing_list.append(PackingItem(item_name, count, packed))
         packing_list.write_yaml()
-        self.ids.dataview.update_layout()
         self.update_layout()
     
     def update_packing_list(self, btn, popup, old_filename):
