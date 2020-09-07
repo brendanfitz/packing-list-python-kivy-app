@@ -62,7 +62,7 @@ class PackingListScreen(Screen):
     def create_update_packing_list_popup(self):
         packing_list = PackingListScreen.current_packing_list
 
-        popup = UpdatePackingListPopup(auto_dismiss=False)
+        popup = UpdatePackingListPopup(title="Update Packing List", auto_dismiss=False)
 
         popup.ids.trip_name.text = packing_list.trip_name
         popup.ids.start_date.text = packing_list.start_date_tostring()
