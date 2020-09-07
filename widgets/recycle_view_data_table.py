@@ -62,6 +62,8 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         self.selected = is_selected
 
     def on_press(self):
+        if self.text == RecycleViewDataTable.no_packing_items_msg:
+            return
         packing_list = PackingListScreen.current_packing_list
         packing_item = next(
             filter(lambda x: x.item_name == self.packing_item, packing_list)
