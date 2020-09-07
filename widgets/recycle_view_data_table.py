@@ -73,7 +73,7 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
 
         packing_list_item_inputs.ids.item_name.text = packing_item.item_name
         packing_list_item_inputs.ids.count.text = str(packing_item.count)
-        packing_list_item_inputs.ids.packed.text = packing_item.get_packed_status()
+        packing_list_item_inputs.ids.packed.active = packing_item.packed
 
         update_args = [
             packing_list,
@@ -97,7 +97,7 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
 
         packing_item.item_name = packing_list_item_inputs.ids.item_name.text
         packing_item.count = int(packing_list_item_inputs.ids.count.text)
-        packing_item.set_packed_status(packing_list_item_inputs.ids.packed.text)
+        packing_item.set_packed_status(packing_list_item_inputs.ids.packed.active)
         packing_list.write_yaml()
         self.parent.parent.parent.update_layout(packing_list=packing_list)
 

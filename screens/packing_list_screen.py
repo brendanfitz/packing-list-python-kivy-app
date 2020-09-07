@@ -33,7 +33,7 @@ class PackingListScreen(Screen):
 
         item_name = packing_list_item_inputs.ids.item_name.text
         count = packing_list_item_inputs.ids.count.text
-        packed = PackingItem.process_packed_status(packing_list_item_inputs.ids.packed.text)
+        packed = PackingItem.process_packed_status(packing_list_item_inputs.ids.packed.active)
 
         packing_list.append(PackingItem(item_name, count, packed))
         packing_list.write_yaml()

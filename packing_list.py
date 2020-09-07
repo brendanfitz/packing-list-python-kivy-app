@@ -18,21 +18,30 @@ class PackingItem(object):
         self.packed = False
     
     def set_packed_status(self, i):
-        if i.lower() in ('yes', 'y'):
-            print('packing...')
-            self.pack()
-        elif i.lower() in ('no', 'n'):
-            print('unpacking...')
-            self.unpack()
+        if isinstance(i, bool):
+            if i:
+                self.pack()
+            else:
+                self.unpack()
+        elif isinstance(i, str):
+            if i.lower() in ('yes', 'y'):
+                print('packing...')
+                self.pack()
+            elif i.lower() in ('no', 'n'):
+                print('unpacking...')
+                self.unpack()
         else:
-            raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
+            raise ValueError("i must be True, False, 'yes', 'y', 'no' or 'n'")
 
     @staticmethod
     def process_packed_status(i):
-        if i.lower() in ('yes', 'y'):
-            return True
-        elif i.lower() in ('no', 'n'):
-            return False
+        if isinstance(i, bool):
+            return i
+        elif isinstance(i, str):
+            if i.lower() in ('yes', 'y'):
+                return True
+            elif i.lower() in ('no', 'n'):
+                return False
         raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
     
     def get_packed_status(self):
