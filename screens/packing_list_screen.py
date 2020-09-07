@@ -29,9 +29,10 @@ class PackingListScreen(Screen):
         btn.on_press = popup.open
 
     def create_packing_list_item(self, btn, packing_list, filename, popup):
-        item_name = popup.ids.item_name.text
-        count = popup.ids.count.text
-        packed = PackingItem.process_packed_status(popup.ids.packed.text)
+        packing_list_item_inputs = popup.ids.packing_list_item_inputs
+        item_name = packing_list_item_inputs.ids.item_name.text
+        count = packing_list_item_inputs.ids.count.text
+        packed = PackingItem.process_packed_status(packing_list_item_inputs.ids.packed.text)
         packing_list.append(PackingItem(item_name, count, packed))
         packing_list.write_yaml()
         self.ids.dataview.update_layout(filename)

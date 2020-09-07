@@ -212,21 +212,8 @@
 <PackingListItemPopUp>:
     GridLayout:
         cols: 1
-        GridLayout:
-            cols: 3
-            id: item_input
-            TextInput:
-                id: item_name
-                hint_text: "Item Name"
-                write_tab: False
-            TextInput:
-                id: count 
-                hint_text: "Count"
-                write_tab: False
-            TextInput:
-                id: packed 
-                hint_text: "Packed"
-                write_tab: False
+        PackingListItemInputs:
+            id: packing_list_item_inputs
         GridLayout:
             cols: 2
             Button:
