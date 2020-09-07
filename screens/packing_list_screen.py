@@ -7,11 +7,9 @@ class PackingListScreen(Screen):
     current_filename = None
     current_packing_list = None
 
-    def update_layout(self, filename=None):
-        if filename:
-            PackingListScreen.current_filename = filename
-            PackingListScreen.packing_list = PackingList.read_yaml(filename)
+    def update_layout(self):
         packing_list = PackingListScreen.current_packing_list
+        filename = packing_list.create_filename()
 
         popup = PackingListItemPopUp(title="Create Packing List Item")
         btn = self.ids.create_item_btn
@@ -37,10 +35,10 @@ class PackingListScreen(Screen):
 
         packing_list.append(PackingItem(item_name, count, packed))
         packing_list.write_yaml()
-        self.ids.dataview.update_layout(filename)
-        self.update_layout(filename)
+        self.ids.dataview.update_layout()
+        self.update_layout()
     
-    def update_packing_list(self, btn, popup):
+    def update_packing_list(self, btn, popup, old_filename):
         packing_list = PackingListScreen.current_packing_list
 
         # update packing list from TextInputs
@@ -55,10 +53,9 @@ class PackingListScreen(Screen):
         packing_list.write_yaml()
 
         # remove old filename
-        old_filename = PackingListScreen.current_filename
-        PackingListScreen.current_filename = packing_list.create_filename()
+        current_filename = packing_list.create_filename()
         # but first check if user didn't change anything
-        if old_filename != PackingListScreen.current_filename:
+        if old_filename != current_filename:
             old_filepath = os.path.join(
                 PackingList.PACKING_LIST_DIR,
                 old_filename
@@ -86,7 +83,10 @@ class PackingListScreen(Screen):
         return popup
 
     def delete_packing_list(self):
-        filename = PackingListScreen.current_filename
+        packing_list = PackingListScreen.current_packing_list
+
+        filename = packing_list.create_filename()
         filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
         os.remove(filepath)
+
         self.manager.current = 'home_screen'

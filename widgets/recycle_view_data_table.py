@@ -8,6 +8,7 @@ from kivy.uix.recycleview.views import RecycleDataViewBehavior
 from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.popup import Popup
 from widgets.popups import PackingListItemUpdatePopUp
+from screens.packing_list_screen import PackingListScreen
 
 class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleGridLayout):
@@ -21,11 +22,9 @@ class RecycleViewDataTable(BoxLayout):
     def __init__(self, **kwargs):
         super(RecycleViewDataTable, self).__init__(**kwargs)
 
-    def update_layout(self, filename=None, packing_list=None):
-        if filename is not None:
-            packing_list = PackingList.read_yaml(filename)
-        else:
-            filename = packing_list.create_filename()[:-5]
+    def update_layout(self):
+        packing_list = PackingListScreen.current_packing_list
+        filename = packing_list.create_filename()
 
         self.data_items.clear()
 
@@ -63,7 +62,7 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         self.selected = is_selected
 
     def on_press(self):
-        packing_list = PackingList.read_yaml(self.filename)
+        packing_list = PackingListScreen.current_packing_list
         packing_item = next(
             filter(lambda x: x.item_name == self.packing_item, packing_list)
         )
@@ -99,12 +98,12 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         packing_item.count = int(packing_list_item_inputs.ids.count.text)
         packing_item.packed = packing_list_item_inputs.ids.packed.active
         packing_list.write_yaml()
-        self.parent.parent.parent.update_layout(packing_list=packing_list)
+        self.parent.parent.parent.update_layout()
 
     def delete_packing_list_item(self, packing_list, packing_item):
         packing_list.remove(packing_item)
         packing_list.write_yaml()
-        self.parent.parent.parent.update_layout(packing_list=packing_list)
+        self.parent.parent.parent.update_layout()
 
     
     def update_changes(self, txt):
