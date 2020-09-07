@@ -27,7 +27,6 @@
             Label:
                 text: "Packing List App"
                 font_size: "20sp"
-                size_hint: 1, 0.2
             PackingListInputs:
                 id: packing_list_inputs
             RelativeLayout:
@@ -141,6 +140,7 @@
                 size_hint_y: None
                 height: 25
                 cols: 3
+                padding: 30, 0
                 Label:
                     text: "Item Name"
                 Label:
@@ -192,6 +192,7 @@
         id: rv_data
         SelectableRecycleGridLayout:
             cols: 3
+            padding: 30, 0
             default_size: None, dp(26)
             default_size_hint: 1, None
             size_hint_y: None
