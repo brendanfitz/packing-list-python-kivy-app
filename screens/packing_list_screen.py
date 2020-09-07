@@ -9,6 +9,9 @@ class PackingListScreen(Screen):
 
     def update_layout(self):
         packing_list = PackingListScreen.current_packing_list
+
+        self.ids.dataview.update_layout()
+
         filename = packing_list.create_filename()
 
         popup = PackingListItemPopUp(title="Create Packing List Item")

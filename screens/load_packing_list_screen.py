@@ -26,6 +26,5 @@ class LoadPackingListScreen(Screen):
         screen = self.manager.get_screen('packing_list_screen')
         filename = btn.text + '.yaml'
         PackingListScreen.current_packing_list = PackingList.read_yaml(filename)
-        screen.ids.dataview.update_layout()
         screen.update_layout()
         self.manager.current = "packing_list_screen"

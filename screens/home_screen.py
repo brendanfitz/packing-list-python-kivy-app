@@ -23,13 +23,12 @@ class HomeScreen(Screen):
             packing_list = PackingList(trip_name, start_date, end_date)
             packing_list.write_yaml()
 
-            filename = packing_list.create_filename()
             PackingListScreen.current_packing_list = packing_list
 
             screen = self.manager.get_screen('packing_list_screen')
-            screen.ids.dataview.update_layout()
             screen.update_layout()
             self.manager.current = "packing_list_screen"
+            self.clear_packing_list_inputs()
         except ValueError:
             self.ids.input_error.text = "Date Input must be in 'YYYY-MM-DD' form. Please try again."
     
@@ -37,3 +36,9 @@ class HomeScreen(Screen):
         screen_name ='load_packing_list_screen'
         self.manager.get_screen(screen_name).update_layout()
         self.manager.current = screen_name
+    
+    def clear_packing_list_inputs(self):
+        inputs = self.ids.packing_list_inputs
+        inputs.ids.trip_name.text = ""
+        inputs.ids.start_date.text = ""
+        inputs.ids.end_date.text = ""
