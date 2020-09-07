@@ -68,9 +68,12 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
             filter(lambda x: x.item_name == self.packing_item, packing_list)
         )
         popup = PackingListItemUpdatePopUp(self, title="Update Item")
-        popup.ids.item_name.text = packing_item.item_name
-        popup.ids.count.text = str(packing_item.count)
-        popup.ids.packed.text = packing_item.get_packed_status()
+
+        packing_list_item_inputs = popup.ids.packing_list_item_inputs
+
+        packing_list_item_inputs.ids.item_name.text = packing_item.item_name
+        packing_list_item_inputs.ids.count.text = str(packing_item.count)
+        packing_list_item_inputs.ids.packed.text = packing_item.get_packed_status()
 
         update_args = [
             packing_list,
@@ -90,9 +93,11 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         popup.open()
     
     def update_packing_list_item(self, packing_list, packing_item, popup):
-        packing_item.item_name = popup.ids.item_name.text
-        packing_item.count = int(popup.ids.count.text)
-        packing_item.set_packed_status(popup.ids.packed.text)
+        packing_list_item_inputs = popup.ids.packing_list_item_inputs
+
+        packing_item.item_name = packing_list_item_inputs.ids.item_name.text
+        packing_item.count = int(packing_list_item_inputs.ids.count.text)
+        packing_item.set_packed_status(packing_list_item_inputs.ids.packed.text)
         packing_list.write_yaml()
         self.parent.parent.parent.update_layout(packing_list=packing_list)
 

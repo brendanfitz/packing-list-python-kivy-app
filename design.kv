@@ -241,32 +241,8 @@
         cols: 1
         padding: 30, 30 
         spacing: 30, 30 
-        GridLayout:
-            cols: 2
-            id: item_input
-            padding: 15, 15
-            spacing: 20, 20
-            Label:
-                text: "Item Name"
-                size_hint: 0.33, 1
-            TextInput:
-                id: item_name
-                hint_text: "Item Name"
-                write_tab: False
-            Label:
-                text: "Count"
-                size_hint: 0.33, 1
-            TextInput:
-                id: count 
-                hint_text: "Count"
-                write_tab: False
-            Label:
-                text: "Packed"
-                size_hint: 0.33, 1
-            TextInput:
-                id: packed 
-                hint_text: "Packed"
-                write_tab: False
+        PackingListItemInputs:
+            id: packing_list_item_inputs
         GridLayout:
             cols: 3
             padding: 60, 60
@@ -289,6 +265,33 @@
                     size_hint: 1, 0.25
                     pos_hint: {'center_x': 0.66, 'center_y': 0.5}
 
+
+<PackingListItemInputs@GridLayout>:
+    cols: 2
+    id: item_input
+    padding: 15, 15
+    spacing: 20, 20
+    Label:
+        text: "Item Name"
+        size_hint: 0.33, 1
+    TextInput:
+        id: item_name
+        hint_text: "Item Name"
+        write_tab: False
+    Label:
+        text: "Count"
+        size_hint: 0.33, 1
+    TextInput:
+        id: count 
+        hint_text: "Count"
+        write_tab: False
+    Label:
+        text: "Packed"
+        size_hint: 0.33, 1
+    TextInput:
+        id: packed 
+        hint_text: "Packed"
+        write_tab: False
 
 <RootWidget>:
     HomeScreen:
