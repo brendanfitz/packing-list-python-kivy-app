@@ -3,11 +3,12 @@ from kivy.uix.screenmanager import Screen
 from screens.packing_list_screen import PackingListScreen
 
 class HomeScreen(Screen):
-    def create_packing_list(self, trip_name, start_date, end_date):
+    def create_packing_list(self):
         try:
-            trip_name = trip_name.text
-            start_date = start_date.text
-            end_date = end_date.text
+            packing_list_inputs = self.ids.packing_list_inputs
+            trip_name = packing_list_inputs.ids.trip_name.text
+            start_date = packing_list_inputs.ids.start_date.text
+            end_date = packing_list_inputs.ids.end_date.text
 
             if trip_name == '':
                 self.ids.input_error.text = "Please enter a Trip Date"

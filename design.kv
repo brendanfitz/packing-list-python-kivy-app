@@ -29,11 +29,12 @@
                 font_size: "20sp"
                 size_hint: 1, 0.1
             PackingListInputs:
+                id: packing_list_inputs
             RelativeLayout:
                 size_hint: 1, 0.1
                 Button:
                     text: "Create Packing List"
-                    on_press: root.create_packing_list(root.ids.trip_name, root.ids.start_date, root.ids.end_date)
+                    on_press: root.create_packing_list()
                     size_hint: 0.3, 0.5
                     pos_hint: {'center_x': 0.5, 'center_y': 0.6}
             Label:
