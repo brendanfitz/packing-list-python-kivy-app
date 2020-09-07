@@ -16,6 +16,7 @@ class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
 
 class RecycleViewDataTable(BoxLayout):
     data_items = ListProperty([])
+    no_packing_items_msg = 'No items have been added yet. Create below'
 
     def __init__(self, **kwargs):
         super(RecycleViewDataTable, self).__init__(**kwargs)
@@ -29,7 +30,7 @@ class RecycleViewDataTable(BoxLayout):
         self.data_items.clear()
 
         if not packing_list:
-            self.data_items.append(('', '', 'No items have been added yet. Create below'))
+            self.data_items.append(('', '', RecycleViewDataTable.no_packing_items_msg))
         else:
             for item in packing_list:
                 self.data_items.append((filename, item.item_name, item.item_name))
