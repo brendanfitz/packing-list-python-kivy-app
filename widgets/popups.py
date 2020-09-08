@@ -8,7 +8,9 @@ class PackingListItemPopUp(Popup):
 
 
 class UpdatePackingListPopup(Popup):
-    pass
+    def __init__(self, **kwargs):
+        kwargs['size_hint'] = (0.75, 0.75)
+        super(UpdatePackingListPopup, self).__init__(**kwargs)
 
 
 class PackingListItemUpdatePopUp(Popup):
