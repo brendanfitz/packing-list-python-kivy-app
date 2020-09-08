@@ -79,6 +79,11 @@ class PackingList(list):
                 self.append(PackingItem(*item_data))
 
 
+        self.create_data_directory()
+
+
+    @staticmethod
+    def create_data_directory():
         if not os.path.isdir(PackingList.PACKING_LIST_DIR):
             os.mkdir(PackingList.PACKING_LIST_DIR)
 
