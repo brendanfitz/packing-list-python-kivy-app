@@ -6,7 +6,7 @@ If you need an application that allows you to create organized packing lists and
 
 I created this application as an opportunity to gain experience with Kivy, one of the most popular python GUI libraries. 
 
-## Command-Line Execution
+### Command-Line Execution
 
 ```
 pip install -r requirements.txt
