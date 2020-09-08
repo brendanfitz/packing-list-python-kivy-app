@@ -13,4 +13,10 @@ pip install -r requirements.txt
 python main.py
 ```
 
+### Testing
+
+```
+python -m unittest tests.test_packing_list
+```
+
 Enjoy!
