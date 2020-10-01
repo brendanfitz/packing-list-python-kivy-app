@@ -8,6 +8,7 @@ from screens.home_screen import HomeScreen
 from screens.load_packing_list_screen import LoadPackingListScreen
 from screens.packing_list_screen import PackingListScreen
 from widgets.recycle_view_data_table import RecycleViewDataTable
+from widgets.selectable_button import SelectableButton
 from widgets.hoverable_button import HoverableButton
 
 Builder.load_file('design.kv')
