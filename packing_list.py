@@ -11,6 +11,18 @@ class PackingItem(object):
         self.count = count
         self.packed = packed
     
+    def __repr__(self):
+         return f"{self.__class__.__name__}(item_name={self.item_name}, count={self.count}, packed={self.packed})"
+
+    def __str__(self):
+        return f"{self.item_name:<30}{self.count:>10}{self.packed_yesno():>10}"
+    
+    def __len__(self):
+        return self.count
+    
+    def __iter__(self):
+        return PackingItemIterator(self.item_name, self.count, self.packed)
+    
     @property
     def packed(self):
         return self._packed
@@ -30,34 +42,34 @@ class PackingItem(object):
         else:
             raise ValueError("i must be True, False, 'yes', 'y', 'no' or 'n'")
         
-    @staticmethod
-    def process_packed_status(i):
-        if isinstance(i, bool):
-            return i
-        elif isinstance(i, str):
-            if i.lower() in ('yes', 'y'):
-                return True
-            elif i.lower() in ('no', 'n'):
-                return False
-        raise ValueError("i must be 'yes', 'y', 'no' or 'n'")
-    
     def packed_yesno(self):
         if self.packed:
             return 'Yes'
         return 'No'
     
-    def __str__(self):
-        return f"{self.item_name:<30}{self.count:>10}{self.packed_yesno():>10}"
-
-    def to_list(self):
-        return [self.item_name, self.count, self.packed]
-
     def to_dict(self):
         return {
             'item_name': self.item_name,
             'count': self.count,
             'packed': self.packed
         }
+
+
+class PackingItemIterator:
+    def __init__(self, item_name, count, packed=False):
+        self._index = 0
+        self._item_data = [item_name, count, packed]
+    
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._index >= len(self._item_data):
+            raise StopIteration
+        else:
+            item = self._item_data[self._index]
+            self._index += 1
+            return item
 
 
 class PackingList(list):
@@ -77,15 +89,12 @@ class PackingList(list):
         if item_list is not None:
             for item_data in item_list:
                 self.append(PackingItem(*item_data))
-
-
         self.create_data_directory()
 
-
-    @staticmethod
-    def create_data_directory():
-        if not os.path.isdir(PackingList.PACKING_LIST_DIR):
-            os.mkdir(PackingList.PACKING_LIST_DIR)
+    @classmethod
+    def create_data_directory(cls):
+        if not os.path.isdir(cls.PACKING_LIST_DIR):
+            os.mkdir(cls.PACKING_LIST_DIR)
 
     @classmethod
     def check_date(cls, input):
@@ -111,7 +120,7 @@ class PackingList(list):
         if df.columns.tolist() != PackingList.CSV_COLUMNS:
             raise ValueError(f"Columns must be {PackingList.CSV_COLUMNS}")
 
-        for idx, row in df.iterrows():
+        for _, row in df.iterrows():
             packing_item = PackingItem(row['Item'], row['Count'])
             self.append(packing_item)
     
@@ -146,7 +155,7 @@ class PackingList(list):
             trip_name=self.trip_name,
             start_date=self.start_date_tostring(),
             end_date=self.end_date_tostring(),
-            item_list=[x.to_list() for x in self]
+            item_list=[list(x) for x in self]
         )
 
         with open(filepath, 'w') as f:
