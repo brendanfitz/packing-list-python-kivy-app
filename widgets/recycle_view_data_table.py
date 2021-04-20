@@ -21,11 +21,11 @@ class RecycleViewDataTable(BoxLayout):
 
     def update_layout(self):
         packing_list = PackingListScreen.current_packing_list
-        filename = packing_list.create_filename()
+        filename = packing_list.filename
 
         self.data_items.clear()
 
-        if not packing_list:
+        if packing_list is None:
             self.data_items.append(('', '', RecycleViewDataTable.no_packing_items_msg))
         else:
             for item in packing_list:
