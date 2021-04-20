@@ -1,4 +1,4 @@
-from packing_list import PackingList
+from packing import PackingList
 from kivy.properties import ListProperty 
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import FocusBehavior

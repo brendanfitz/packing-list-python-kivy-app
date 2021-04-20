@@ -1,4 +1,4 @@
-from packing_list import PackingList 
+from packing import PackingList 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.button import Button

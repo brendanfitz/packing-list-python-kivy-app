@@ -1,5 +1,5 @@
 import unittest
-from packing_list import PackingList, PackingItem
+from packing import PackingList, PackingItem
 from tests import setup
 from tests import teardown
 

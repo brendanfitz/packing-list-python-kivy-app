@@ -1,4 +1,4 @@
-from packing_list import PackingList, PackingItem
+from packing import PackingList, PackingItem
 from kivy.uix.screenmanager import Screen
 from screens.packing_list_screen import PackingListScreen
 
