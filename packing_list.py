@@ -1,18 +1,19 @@
 import os
 import re
 import yaml
-import datetime as dt
+from datetime import date, datetime
 import pandas as pd
 
 class PackingItem(object):
 
     def __init__(self, item_name, count, packed=False):
-        self.item_name = item_name
-        self.count = count
+        self.item_name = str(item_name)
+        self.count = int(count)
         self.packed = packed
     
     def __repr__(self):
-         return f"{self.__class__.__name__}(item_name={self.item_name}, count={self.count}, packed={self.packed})"
+         return (f"{self.__class__.__name__}(item_name='{self.item_name}', "
+                 f"count={self.count}, packed={self.packed})")
 
     def __str__(self):
         return f"{self.item_name:<30}{self.count:>10}{self.packed_yesno():>10}"
@@ -30,10 +31,7 @@ class PackingItem(object):
     @packed.setter
     def packed(self, i):
         if isinstance(i, bool):
-            if i:
-                self._packed = True
-            else:
-                self._packed = False 
+            self._packed = i 
         elif isinstance(i, str):
             if i.lower() in ('yes', 'y'):
                 self._packed = True
@@ -72,90 +70,77 @@ class PackingItemIterator:
             return item
 
 
-class PackingList(list):
+class PackingList(object):
 
     PACKING_LIST_DIR = 'packing_lists'
-    DATE_PAT_STR = r'\d\d\d\d-\d\d-\d\d'
-    STRPTIME_PAT_STR = r'%Y-%m-%d'
-    DATE_PAT = re.compile(DATE_PAT_STR)
+    os.makedirs(PACKING_LIST_DIR, exist_ok=True)
 
-    CATEGORIES = []
-    CSV_COLUMNS = ['Item', 'Count']
-
-    def __init__(self, trip_name, start_date, end_date, item_list=None):
+    def __init__(self, trip_name, start_date, end_date, items=None):
         self.trip_name = trip_name
-        self.start_date = PackingList.check_date(start_date)
-        self.end_date = PackingList.check_date(end_date)
-        if item_list is not None:
-            for item_data in item_list:
-                self.append(PackingItem(*item_data))
-        self.create_data_directory()
-
-    @classmethod
-    def create_data_directory(cls):
-        if not os.path.isdir(cls.PACKING_LIST_DIR):
-            os.mkdir(cls.PACKING_LIST_DIR)
-
-    @classmethod
-    def check_date(cls, input):
-        if isinstance(input, (dt.date, dt.datetime)):
-            return input
-        return dt.datetime.strptime(input, cls.STRPTIME_PAT_STR)
-
-    def __getitem__(self, item_name):
-        item = next(filter(lambda x: x.item_name == item_name, self))
-        return item
+        self.start_date = start_date
+        self.end_date = end_date
+        self._items = [PackingItem(*item) for item in items] if items else []
     
-    def append(self, item):
-        if not isinstance(item, PackingItem):
-            raise ValueError("Item must be of type PackingItem")
-        list.append(self, item)
-    
-    def load_packing_list_csv(self, filename):
-        if not os.path.isfile(filename):
-            raise FileNotFoundError(f"{filename} does not exist")
-        
-        df = pd.read_csv(filename, dtype={'Item': str, 'Count': 'int64'})
+    def __repr__(self):
+        start_date = self.start_date.packing_strftime()
+        end_date = self.end_date.packing_strftime()
+        return (f"{self.__class__.__name__}(trip_name='{self.trip_name}',"
+                f" start_date='{start_date}', end_date='{end_date}')")
 
-        if df.columns.tolist() != PackingList.CSV_COLUMNS:
-            raise ValueError(f"Columns must be {PackingList.CSV_COLUMNS}")
-
-        for _, row in df.iterrows():
-            packing_item = PackingItem(row['Item'], row['Count'])
-            self.append(packing_item)
-    
-    def print_packing_list(self):
-        print(f"{'Item':<30}{'Count':>10}{'Packed':>10}")
-        for item in self:
-            print(item)
-    
     def __str__(self):
-        str_format = '%b %d, %Y'
-        start_date_str = self.start_date.strftime(str_format)
-        end_date_str = self.end_date.strftime(str_format)
-        return f"Trip to {self.trip_name} from {start_date_str} to {end_date_str}"
+        start_date = self.start_date.packing_strftime()
+        end_date = self.end_date.packing_strftime()
+        return f"Trip to {self.trip_name} from {start_date} to {end_date}"
 
-    def create_filename(self):
-        start_date_str = self.start_date_tostring()
-        end_date_str = self.end_date_tostring()
-        filename = f"{self.trip_name} {start_date_str} to {end_date_str}.yaml"
+    def __len__(self):
+        return len(self._items)
+
+    def __getitem__(self, s):
+        return self._items[s]
+
+    def append(self, item):
+        packing_item = PackingItem(*item)
+        self._items.append(packing_item)
+    
+    @property
+    def start_date(self):
+        return self._start_date
+
+    @start_date.setter
+    def start_date(self, value):
+        self._start_date = PackingListDate.packing_strptime(value)
+
+    @property
+    def end_date(self):
+        return self._end_date
+
+    @end_date.setter
+    def end_date(self, value):
+        end_date = PackingListDate.packing_strptime(value) 
+        if end_date <= self.start_date:
+            raise ValueError('End date must be before start date')
+        self._end_date = end_date
+
+    @property
+    def filename(self):
+        start_date = self.start_date.packing_strftime()
+        end_date = self.end_date.packing_strftime()
+        filename = f"{self.trip_name} {start_date} to {end_date}.yaml"
         return filename
     
-    def start_date_tostring(self):
-        return self.start_date.strftime(self.STRPTIME_PAT_STR)
-
-    def end_date_tostring(self):
-        return self.end_date.strftime(self.STRPTIME_PAT_STR)
-
+    def print_items(self):
+        print(f"{'Item':<30}{'Count':>10}{'Packed':>10}")
+        for item in self._items:
+            print(item)
+    
     def write_yaml(self):
-        filename = self.create_filename()
-        filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
+        filepath = os.path.join(self.__class__.PACKING_LIST_DIR, self.filename)
 
         data = dict(
             trip_name=self.trip_name,
-            start_date=self.start_date_tostring(),
-            end_date=self.end_date_tostring(),
-            item_list=[list(x) for x in self]
+            start_date=self.start_date.packing_strftime(),
+            end_date=self.end_date.packing_strftime(),
+            item_list=[list(item) for item in self._items]
         )
 
         with open(filepath, 'w') as f:
@@ -169,10 +154,11 @@ class PackingList(list):
         filepath = os.path.join(cls.PACKING_LIST_DIR, filename)
         with open(filepath, 'r') as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
+
         return cls(
             data['trip_name'],
-            cls.check_date(data['start_date']),
-            cls.check_date(data['end_date']),
+            PackingListDate.packing_strptime(data['start_date']),
+            PackingListDate.packing_strptime(data['end_date']),
             data['item_list']
         )
     
@@ -183,4 +169,21 @@ class PackingList(list):
         yaml_filenames = [x[0] for x in filenames_split if x[1] == '.yaml']
         return yaml_filenames
 
-        
+
+class PackingListDate(date):
+    DATE_PAT_STR = r'\d\d\d\d-\d\d-\d\d'
+    STRPTIME_PAT_STR = r'%Y-%m-%d'
+    DATE_PAT = re.compile(DATE_PAT_STR)
+
+    def packing_strftime(self):
+        return self.strftime(self.__class__.STRPTIME_PAT_STR)
+     
+    @classmethod
+    def packing_strptime(cls, value):
+        if isinstance(value, (date, datetime)):
+            return cls(value.year, value.month, value.day) 
+        elif isinstance(value, str):
+            value = datetime.strptime(value, cls.STRPTIME_PAT_STR).date()
+            return cls(value.year, value.month, value.day) 
+        else:
+            raise ValueError(f'{type(value)} not accepted')
