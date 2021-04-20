@@ -34,7 +34,15 @@ class PackingList(object):
 
     def append(self, item):
         packing_item = PackingItem(*item)
-        self._items.append(packing_item)
+
+        # check if item is already present
+        filter_func = lambda x: x.item_name == packing_item.item_name
+        try:
+            current_item = next(filter(filter_func, self._items))
+        except StopIteration:
+            self._items.append(packing_item)
+        else:
+            raise ValueError(f'item "{current_item.item_name}" already present in packing list')
     
     @property
     def start_date(self):

@@ -2,7 +2,7 @@
 class PackingItem(object):
 
     def __init__(self, item_name, count, packed=False):
-        self.item_name = str(item_name)
+        self.item_name = str(item_name).strip()
         self.count = int(count)
         self.packed = packed
     

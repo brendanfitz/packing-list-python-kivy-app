@@ -36,9 +36,14 @@ class PackingListScreen(Screen):
         count = packing_list_item_inputs.ids.count.text
         packed = packing_list_item_inputs.ids.packed.active
 
-        packing_list.append(PackingItem(item_name, count, packed))
-        packing_list.write_yaml()
-        self.update_layout()
+        try:
+            packing_list.append(PackingItem(item_name, count, packed))
+        except ValueError:
+            # TODO: add popup here
+            pass
+        else:
+            packing_list.write_yaml()
+            self.update_layout()
     
     def update_packing_list(self, btn, popup):
         packing_list = PackingListScreen.current_packing_list
