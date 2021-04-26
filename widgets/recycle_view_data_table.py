@@ -25,7 +25,7 @@ class RecycleViewDataTable(BoxLayout):
 
         self.data_items.clear()
 
-        if packing_list is None:
+        if len(packing_list) == 0:
             self.data_items.append(('', '', RecycleViewDataTable.no_packing_items_msg))
         else:
             for item in packing_list:

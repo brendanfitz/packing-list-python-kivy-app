@@ -41,11 +41,12 @@ class PackingItem(object):
         return 'No'
     
     def to_dict(self):
-        return {
-            'item_name': self.item_name,
-            'count': self.count,
-            'packed': self.packed
-        }
+        return {self.item_name: {'count': self.count, 'packed': self.packed}}
+    
+    @classmethod
+    def from_dict(cls, item_data):
+        item_name = list(item_data.keys())[0]
+        return cls(item_name, **item_data[item_name])
 
 
 class PackingItemIterator:

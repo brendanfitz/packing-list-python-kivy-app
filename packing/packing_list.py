@@ -60,7 +60,7 @@ class PackingList(object):
     def end_date(self, value):
         end_date = PackingListDate.packing_strptime(value) 
         if end_date <= self.start_date:
-            raise ValueError('End date must be before start date')
+            raise PackingDateValueError('End date must be before start date')
         self._end_date = end_date
 
     @property
@@ -82,7 +82,7 @@ class PackingList(object):
             trip_name=self.trip_name,
             start_date=self.start_date.packing_strftime(),
             end_date=self.end_date.packing_strftime(),
-            item_list=[list(item) for item in self._items]
+            item_list=[item.to_dict() for item in self._items]
         )
 
         with open(filepath, 'w') as f:
@@ -101,7 +101,7 @@ class PackingList(object):
             data['trip_name'],
             PackingListDate.packing_strptime(data['start_date']),
             PackingListDate.packing_strptime(data['end_date']),
-            data['item_list']
+            [PackingItem.from_dict(item) for item in data['item_list']]
         )
     
     @classmethod
@@ -129,3 +129,6 @@ class PackingListDate(date):
             return cls(value.year, value.month, value.day) 
         else:
             raise ValueError(f'{type(value)} not accepted')
+
+class PackingDateValueError(ValueError):
+    """ Error raised when trip End Date is before the Start Date """
