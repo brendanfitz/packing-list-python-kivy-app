@@ -5,7 +5,7 @@ from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.popup import Popup
-from screens.packing_list_screen import PackingListScreen
+from packing.screens.packing_list_screen import PackingListScreen
 
 class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleGridLayout):

@@ -1,6 +1,6 @@
 from packing import PackingList, PackingItem, PackingDateValueError
 from kivy.uix.screenmanager import Screen
-from screens.packing_list_screen import PackingListScreen
+from packing.screens.packing_list_screen import PackingListScreen
 
 class HomeScreen(Screen):
     def create_packing_list(self):

@@ -2,7 +2,7 @@ from packing import PackingList
 from kivy.uix.screenmanager import Screen
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.button import Button
-from screens.packing_list_screen import PackingListScreen
+from packing.screens.packing_list_screen import PackingListScreen
 
 class LoadPackingListScreen(Screen):
 

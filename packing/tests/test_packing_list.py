@@ -1,7 +1,7 @@
 import unittest
 from packing import PackingList, PackingItem
-from tests import setup
-from tests import teardown
+from packing.tests import setup
+from packing.tests import teardown
 
 class PackingListTestCase(unittest.TestCase):
 

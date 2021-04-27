@@ -3,7 +3,7 @@ import shutil
 
 def main():
     dest_path = 'packing_lists'
-    templates_path = os.path.join('tests', 'templates')
+    templates_path = os.path.join('packing', 'tests', 'templates')
     
     for filename in os.listdir(templates_path):
         src = os.path.join(templates_path, filename)

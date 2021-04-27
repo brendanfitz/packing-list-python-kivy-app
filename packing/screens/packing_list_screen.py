@@ -1,7 +1,7 @@
 from os import path, remove
 from packing import PackingList, PackingItem
 from kivy.uix.screenmanager import Screen
-from widgets.popups import PackingListItemPopUp, UpdatePackingListPopup
+from packing.widgets.popups import PackingListItemPopUp, UpdatePackingListPopup
 
 class PackingListScreen(Screen):
     current_filename = None
