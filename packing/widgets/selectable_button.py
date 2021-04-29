@@ -41,11 +41,11 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         )
         popup = PackingListItemUpdatePopUp(self, title="Update Item")
 
-        packing_list_item_inputs = popup.ids.packing_list_item_inputs
+        form_data = popup.ids.packing_list_item_inputs.ids
 
-        packing_list_item_inputs.ids.item_name.text = packing_item.item_name
-        packing_list_item_inputs.ids.count.text = str(packing_item.count)
-        packing_list_item_inputs.ids.packed.active = packing_item.packed
+        form_data.item_name.text = packing_item.item_name
+        form_data.count.text = str(packing_item.count)
+        form_data.packed.active = packing_item.packed
 
         update_args = [
             packing_list,
@@ -65,12 +65,13 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         popup.open()
     
     def update_packing_list_item(self, packing_list, packing_item, popup):
-        packing_list_item_inputs = popup.ids.packing_list_item_inputs
+        form_data = popup.ids.packing_list_item_inputs.ids
 
-        packing_item.item_name = packing_list_item_inputs.ids.item_name.text
-        packing_item.count = int(packing_list_item_inputs.ids.count.text)
-        packing_item.packed = packing_list_item_inputs.ids.packed.active
+        packing_item.item_name = form_data.item_name.text
+        packing_item.count = int(form_data.count.text)
+        packing_item.packed = form_data.packed.active
         packing_list.toJSON()
+
         self.parent.parent.parent.update_layout()
 
     def delete_packing_list_item(self, packing_list, packing_item):

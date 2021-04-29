@@ -30,11 +30,11 @@ class PackingListScreen(Screen):
         btn.on_press = popup.open
 
     def create_packing_list_item(self, btn, packing_list, filename, popup):
-        packing_list_item_inputs = popup.ids.packing_list_item_inputs
+        form_data = popup.ids.packing_list_item_inputs.ids
 
-        item_name = packing_list_item_inputs.ids.item_name.text
-        count = packing_list_item_inputs.ids.count.text
-        packed = packing_list_item_inputs.ids.packed.active
+        item_name = form_data.item_name.text
+        count = form_data.count.text
+        packed = form_data.packed.active
 
         try:
             packing_list.append(PackingItem(item_name, count, packed))
@@ -44,6 +44,10 @@ class PackingListScreen(Screen):
         else:
             packing_list.toJSON()
             self.update_layout()
+        finally:
+            form_data.item_name.text = ''
+            form_data.count.text = ''
+            form_data.packed.active = False
     
     def update_packing_list(self, btn, popup):
         packing_list = PackingListScreen.current_packing_list

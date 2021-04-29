@@ -9,7 +9,7 @@ class LoadPackingListScreen(Screen):
     def update_layout(self):
         grid = self.ids.grid
         grid.clear_widgets()
-        filenames = PackingList.list_packing_lists()
+        filenames = PackingList.get_packing_lists()
         for filename in filenames:
             rel_layout = RelativeLayout()
             btn_kwargs = dict(
