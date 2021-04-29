@@ -54,11 +54,11 @@ class PackingListScreen(Screen):
         former_filename = packing_list.filename
 
         # update packing list from TextInputs
-        form_data = popup.ids.packing_list_inputs
-        packing_list.trip_name = form_data.ids.trip_name.text
-        packing_list.start_date = form_data.ids.start_date.text
+        form_data = popup.ids.packing_list_inputs.ids
+        packing_list.trip_name = form_data.trip_name.text
+        packing_list.start_date = form_data.start_date.text
         try:
-            packing_list.end_date = form_data.ids.end_date.text
+            packing_list.end_date = form_data.end_date.text
         except PackingDateValueError:
             popup.ids.input_error.text = "Trip End Date is before the Start Date. Please try again."
             return
@@ -78,10 +78,10 @@ class PackingListScreen(Screen):
 
         popup = UpdatePackingListPopup(title="Update Packing List", auto_dismiss=False)
 
-        packing_list_inputs = popup.ids.packing_list_inputs
-        packing_list_inputs.ids.trip_name.text = packing_list.trip_name
-        packing_list_inputs.ids.start_date.text = packing_list.start_date.packing_strftime()
-        packing_list_inputs.ids.end_date.text = packing_list.end_date.packing_strftime()
+        form_data = popup.ids.packing_list_inputs.ids
+        form_data.trip_name.text = packing_list.trip_name
+        form_data.start_date.text = packing_list.start_date.packing_strftime()
+        form_data.end_date.text = packing_list.end_date.packing_strftime()
 
         popup.ids.submit_btn.bind(
             on_press=lambda btn: self.update_packing_list(btn, popup),
