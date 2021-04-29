@@ -1,5 +1,5 @@
 from os import path, remove
-from packing import PackingList, PackingItem
+from packing import PackingList, PackingItem, PackingDateValueError
 from kivy.uix.screenmanager import Screen
 from packing.widgets.popups import PackingListItemPopUp, UpdatePackingListPopup
 
@@ -53,7 +53,11 @@ class PackingListScreen(Screen):
         form_data = popup.ids.packing_list_inputs
         packing_list.trip_name = form_data.ids.trip_name.text
         packing_list.start_date = form_data.ids.start_date.text
-        packing_list.end_date = form_data.ids.end_date.text
+        try:
+            packing_list.end_date = form_data.ids.end_date.text
+        except PackingDateValueError:
+            popup.ids.input_error.text = "Trip End Date is before the Start Date. Please try again."
+            return
 
         packing_list.toJSON()
 
