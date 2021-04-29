@@ -1,7 +1,7 @@
-import os
-from packing_list import PackingList, PackingItem
+from os import path, remove
+from packing import PackingList, PackingItem, PackingDateValueError
 from kivy.uix.screenmanager import Screen
-from widgets.popups import PackingListItemPopUp, UpdatePackingListPopup
+from packing.widgets.popups import PackingListItemPopUp, UpdatePackingListPopup
 
 class PackingListScreen(Screen):
     current_filename = None
@@ -12,7 +12,7 @@ class PackingListScreen(Screen):
 
         self.ids.dataview.update_layout()
 
-        filename = packing_list.create_filename()
+        filename = packing_list.filename
 
         popup = PackingListItemPopUp(title="Create Packing List Item")
         btn = self.ids.create_item_btn
@@ -36,33 +36,35 @@ class PackingListScreen(Screen):
         count = packing_list_item_inputs.ids.count.text
         packed = packing_list_item_inputs.ids.packed.active
 
-        packing_list.append(PackingItem(item_name, count, packed))
-        packing_list.write_yaml()
-        self.update_layout()
+        try:
+            packing_list.append(PackingItem(item_name, count, packed))
+        except ValueError:
+            # TODO: add popup here
+            pass
+        else:
+            packing_list.toJSON()
+            self.update_layout()
     
-    def update_packing_list(self, btn, popup, old_filename):
+    def update_packing_list(self, btn, popup):
         packing_list = PackingListScreen.current_packing_list
+        former_filename = packing_list.filename
 
         # update packing list from TextInputs
-        packing_list_inputs = popup.ids.packing_list_inputs
-        trip_name = packing_list_inputs.ids.trip_name.text
-        start_date = packing_list_inputs.ids.start_date.text
-        end_date = packing_list_inputs.ids.end_date.text
+        form_data = popup.ids.packing_list_inputs
+        packing_list.trip_name = form_data.ids.trip_name.text
+        packing_list.start_date = form_data.ids.start_date.text
+        try:
+            packing_list.end_date = form_data.ids.end_date.text
+        except PackingDateValueError:
+            popup.ids.input_error.text = "Trip End Date is before the Start Date. Please try again."
+            return
 
-        packing_list.trip_name = trip_name
-        packing_list.start_date = PackingList.check_date(start_date)
-        packing_list.end_date = PackingList.check_date(end_date)
-        packing_list.write_yaml()
+        packing_list.toJSON()
 
-        # remove old filename
-        current_filename = packing_list.create_filename()
-        # but first check if user didn't change anything
-        if old_filename != current_filename:
-            old_filepath = os.path.join(
-                PackingList.PACKING_LIST_DIR,
-                old_filename
-            )
-            os.remove(old_filepath)
+        # remove old json file if user changed data
+        if former_filename != packing_list.filename:
+            filepath = path.join(PackingList.PACKING_LIST_DIR, former_filename)
+            remove(filepath)
 
         self.update_layout()
         popup.dismiss()
@@ -74,8 +76,8 @@ class PackingListScreen(Screen):
 
         packing_list_inputs = popup.ids.packing_list_inputs
         packing_list_inputs.ids.trip_name.text = packing_list.trip_name
-        packing_list_inputs.ids.start_date.text = packing_list.start_date_tostring()
-        packing_list_inputs.ids.end_date.text = packing_list.end_date_tostring()
+        packing_list_inputs.ids.start_date.text = packing_list.start_date.packing_strftime()
+        packing_list_inputs.ids.end_date.text = packing_list.end_date.packing_strftime()
 
         popup.ids.submit_btn.bind(
             on_press=lambda btn: self.update_packing_list(btn, popup),
@@ -87,8 +89,8 @@ class PackingListScreen(Screen):
     def delete_packing_list(self):
         packing_list = PackingListScreen.current_packing_list
 
-        filename = packing_list.create_filename()
-        filepath = os.path.join(PackingList.PACKING_LIST_DIR, filename)
-        os.remove(filepath)
+        filename = packing_list.filename
+        filepath = path.join(PackingList.PACKING_LIST_DIR, filename)
+        remove(filepath)
 
         self.manager.current = 'home_screen'

@@ -1,11 +1,11 @@
-from packing_list import PackingList
+from packing import PackingList
 from kivy.properties import ListProperty 
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import FocusBehavior
 from kivy.uix.recycleview.layout import LayoutSelectionBehavior
 from kivy.uix.recyclegridlayout import RecycleGridLayout
 from kivy.uix.popup import Popup
-from screens.packing_list_screen import PackingListScreen
+from packing.screens.packing_list_screen import PackingListScreen
 
 class SelectableRecycleGridLayout(FocusBehavior, LayoutSelectionBehavior,
                                   RecycleGridLayout):
@@ -21,11 +21,11 @@ class RecycleViewDataTable(BoxLayout):
 
     def update_layout(self):
         packing_list = PackingListScreen.current_packing_list
-        filename = packing_list.create_filename()
+        filename = packing_list.filename
 
         self.data_items.clear()
 
-        if not packing_list:
+        if len(packing_list) == 0:
             self.data_items.append(('', '', RecycleViewDataTable.no_packing_items_msg))
         else:
             for item in packing_list:

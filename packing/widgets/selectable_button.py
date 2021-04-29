@@ -1,9 +1,10 @@
 from kivy.properties import BooleanProperty
 from kivy.uix.button import Button
 from kivy.uix.recycleview.views import RecycleDataViewBehavior
-from widgets.recycle_view_data_table import RecycleViewDataTable
-from widgets.popups import PackingListItemUpdatePopUp
-from screens.packing_list_screen import PackingListScreen
+from packing.widgets.recycle_view_data_table import RecycleViewDataTable
+from packing.widgets.popups import PackingListItemUpdatePopUp
+from packing.screens.packing_list_screen import PackingListScreen
+
 
 class ItemDataButton(Button):
     pass
@@ -69,12 +70,12 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         packing_item.item_name = packing_list_item_inputs.ids.item_name.text
         packing_item.count = int(packing_list_item_inputs.ids.count.text)
         packing_item.packed = packing_list_item_inputs.ids.packed.active
-        packing_list.write_yaml()
+        packing_list.toJSON()
         self.parent.parent.parent.update_layout()
 
     def delete_packing_list_item(self, packing_list, packing_item):
         packing_list.remove(packing_item)
-        packing_list.write_yaml()
+        packing_list.toJSON()
         self.parent.parent.parent.update_layout()
 
     def update_changes(self, txt):

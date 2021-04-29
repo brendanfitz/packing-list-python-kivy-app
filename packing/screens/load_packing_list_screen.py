@@ -1,8 +1,8 @@
-from packing_list import PackingList 
+from packing import PackingList 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.button import Button
-from screens.packing_list_screen import PackingListScreen
+from packing.screens.packing_list_screen import PackingListScreen
 
 class LoadPackingListScreen(Screen):
 
@@ -24,7 +24,7 @@ class LoadPackingListScreen(Screen):
 
     def packing_list_screen(self, btn):
         screen = self.manager.get_screen('packing_list_screen')
-        filename = btn.text + '.yaml'
-        PackingListScreen.current_packing_list = PackingList.read_yaml(filename)
+        filename = btn.text + '.json'
+        PackingListScreen.current_packing_list = PackingList.fromJSON(filename)
         screen.update_layout()
         self.manager.current = "packing_list_screen"
