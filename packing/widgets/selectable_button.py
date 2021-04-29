@@ -70,12 +70,12 @@ class SelectableButton(RecycleDataViewBehavior, ItemDataButton):
         packing_item.item_name = packing_list_item_inputs.ids.item_name.text
         packing_item.count = int(packing_list_item_inputs.ids.count.text)
         packing_item.packed = packing_list_item_inputs.ids.packed.active
-        packing_list.write_yaml()
+        packing_list.toJSON()
         self.parent.parent.parent.update_layout()
 
     def delete_packing_list_item(self, packing_list, packing_item):
         packing_list.remove(packing_item)
-        packing_list.write_yaml()
+        packing_list.toJSON()
         self.parent.parent.parent.update_layout()
 
     def update_changes(self, txt):

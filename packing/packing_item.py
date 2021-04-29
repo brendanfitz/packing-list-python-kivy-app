@@ -1,3 +1,4 @@
+from marshmallow import Schema, fields, post_load
 
 class PackingItem(object):
 
@@ -18,6 +19,15 @@ class PackingItem(object):
     
     def __iter__(self):
         return PackingItemIterator(self.item_name, self.count, self.packed)
+    
+    def __eq__(self, other):
+        if not isinstance(other, PackingItem):
+            return False
+        return (
+            self.item_name == other.item_name and
+            self.count == other.count and
+            self.packed == other.packed
+        )
     
     @property
     def packed(self):
@@ -40,14 +50,6 @@ class PackingItem(object):
             return 'Yes'
         return 'No'
     
-    def to_dict(self):
-        return {self.item_name: {'count': self.count, 'packed': self.packed}}
-    
-    @classmethod
-    def from_dict(cls, item_data):
-        item_name = list(item_data.keys())[0]
-        return cls(item_name, **item_data[item_name])
-
 
 class PackingItemIterator:
     def __init__(self, item_name, count, packed=False):
@@ -64,3 +66,15 @@ class PackingItemIterator:
             item = self._item_data[self._index]
             self._index += 1
             return item
+
+class PackingItemSchema(Schema):
+    class Meta:
+        ordered = True
+
+    item_name = fields.Str()
+    count = fields.Int()
+    packed = fields.Bool()
+
+    @post_load
+    def make_packing_item(self, data, **kwargs):
+        return PackingItem(**data)

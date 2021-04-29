@@ -1,19 +1,19 @@
 import os
 import re
-import yaml
 from datetime import date, datetime
-from packing import PackingItem
+from packing import PackingItem, PackingItemSchema
+from marshmallow import Schema, fields, post_load
 
 class PackingList(object):
 
-    PACKING_LIST_DIR = 'packing_lists'
+    PACKING_LIST_DIR = os.path.join(os.getenv('APPDATA'), 'Packing Lists')
     os.makedirs(PACKING_LIST_DIR, exist_ok=True)
 
-    def __init__(self, trip_name, start_date, end_date, items=None):
+    def __init__(self, trip_name, start_date, end_date, items=[]):
         self.trip_name = trip_name
         self.start_date = start_date
         self.end_date = end_date
-        self._items = [PackingItem(*item) for item in items] if items else []
+        self._items = [PackingItem(*item) for item in items] or []
     
     def __repr__(self):
         start_date = self.start_date.packing_strftime()
@@ -31,6 +31,17 @@ class PackingList(object):
 
     def __getitem__(self, s):
         return self._items[s]
+    
+    def __eq__(self, other):
+        if not isinstance(other, PackingList):
+            return False
+        return (
+            self.trip_name == other.trip_name and
+            self.start_date == other.start_date and
+            self.end_date == other.end_date and
+            self.items == other.items
+        )
+
 
     def append(self, item):
         packing_item = PackingItem(*item)
@@ -43,6 +54,9 @@ class PackingList(object):
             self._items.append(packing_item)
         else:
             raise ValueError(f'item "{current_item.item_name}" already present in packing list')
+        
+    def remove(self, item):
+        self._items.remove(item)
     
     @property
     def start_date(self):
@@ -58,16 +72,22 @@ class PackingList(object):
 
     @end_date.setter
     def end_date(self, value):
-        end_date = PackingListDate.packing_strptime(value) 
+        end_date = PackingListDate.packing_strptime(value)
+
         if end_date <= self.start_date:
             raise PackingDateValueError('End date must be before start date')
+
         self._end_date = end_date
+    
+    @property
+    def items(self):
+        return self._items
 
     @property
     def filename(self):
         start_date = self.start_date.packing_strftime()
         end_date = self.end_date.packing_strftime()
-        filename = f"{self.trip_name} {start_date} to {end_date}.yaml"
+        filename = f"{self.trip_name} {start_date} to {end_date}.json"
         return filename
     
     def print_items(self):
@@ -75,41 +95,23 @@ class PackingList(object):
         for item in self._items:
             print(item)
     
-    def write_yaml(self):
+    def toJSON(self):
         filepath = os.path.join(self.__class__.PACKING_LIST_DIR, self.filename)
-
-        data = dict(
-            trip_name=self.trip_name,
-            start_date=self.start_date.packing_strftime(),
-            end_date=self.end_date.packing_strftime(),
-            item_list=[item.to_dict() for item in self._items]
-        )
-
         with open(filepath, 'w') as f:
-            yaml.dump(data, f)
+            f.write(PackingListSchema().dumps(self))
 
     @classmethod
-    def read_yaml(cls, filename):
-        if filename[-5:] != '.yaml':
-            filename = filename + '.yaml'
-
+    def fromJSON(cls, filename):
         filepath = os.path.join(cls.PACKING_LIST_DIR, filename)
         with open(filepath, 'r') as f:
-            data = yaml.load(f, Loader=yaml.FullLoader)
+            return PackingListSchema().loads(f.read())
 
-        return cls(
-            data['trip_name'],
-            PackingListDate.packing_strptime(data['start_date']),
-            PackingListDate.packing_strptime(data['end_date']),
-            [PackingItem.from_dict(item) for item in data['item_list']]
-        )
-    
     @classmethod
     def list_packing_lists(cls):
         filenames = os.listdir(cls.PACKING_LIST_DIR)
         filenames_split = list(map(os.path.splitext, filenames))
-        yaml_filenames = [x[0] for x in filenames_split if x[1] == '.yaml']
-        return yaml_filenames
+        json_filenames = [x[0] for x in filenames_split if x[1] == '.json']
+        return json_filenames
 
 
 class PackingListDate(date):
@@ -132,3 +134,16 @@ class PackingListDate(date):
 
 class PackingDateValueError(ValueError):
     """ Error raised when trip End Date is before the Start Date """
+
+class PackingListSchema(Schema):
+    class Meta:
+        ordered = True
+
+    trip_name = fields.Str()
+    start_date = fields.Date()
+    end_date = fields.Date()
+    items = fields.Nested(PackingItemSchema, many=True)
+
+    @post_load
+    def make_packing_list(self, data, **kwargs):
+        return PackingList(**data)

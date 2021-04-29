@@ -42,7 +42,7 @@ class PackingListScreen(Screen):
             # TODO: add popup here
             pass
         else:
-            packing_list.write_yaml()
+            packing_list.toJSON()
             self.update_layout()
     
     def update_packing_list(self, btn, popup):
@@ -55,9 +55,9 @@ class PackingListScreen(Screen):
         packing_list.start_date = form_data.ids.start_date.text
         packing_list.end_date = form_data.ids.end_date.text
 
-        packing_list.write_yaml()
+        packing_list.toJSON()
 
-        # remove old yaml file if user changed data
+        # remove old json file if user changed data
         if former_filename != packing_list.filename:
             filepath = path.join(PackingList.PACKING_LIST_DIR, former_filename)
             remove(filepath)

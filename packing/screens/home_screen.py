@@ -26,7 +26,7 @@ class HomeScreen(Screen):
         except ValueError:
             self.ids.input_error.text = "Date Input must be in 'YYYY-MM-DD' form. Please try again."
         else:
-            packing_list.write_yaml()
+            packing_list.toJSON()
 
             PackingListScreen.current_packing_list = packing_list
 
