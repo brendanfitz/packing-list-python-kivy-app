@@ -18,7 +18,7 @@ class PackingList(object):
     def __repr__(self):
         start_date = self.start_date.packing_strftime()
         end_date = self.end_date.packing_strftime()
-        return (f"{self.__class__.__name__}(trip_name='{self.trip_name}',"
+        return (f"PackingList(trip_name='{self.trip_name}',"
                 f" start_date='{start_date}', end_date='{end_date}')")
 
     def __str__(self):
@@ -41,7 +41,6 @@ class PackingList(object):
             self.end_date == other.end_date and
             self.items == other.items
         )
-
 
     def append(self, item):
         packing_item = PackingItem(*item)
@@ -73,10 +72,8 @@ class PackingList(object):
     @end_date.setter
     def end_date(self, value):
         end_date = PackingListDate.packing_strptime(value)
-
         if end_date <= self.start_date:
             raise PackingDateValueError('End date must be before start date')
-
         self._end_date = end_date
     
     @property
@@ -90,15 +87,18 @@ class PackingList(object):
         filename = f"{self.trip_name} {start_date} to {end_date}.json"
         return filename
     
-    def print_items(self):
-        print(f"{'Item':<30}{'Count':>10}{'Packed':>10}")
+    def items_table(self):
+        result = f"{'Item':<30}{'Count':>10}{'Packed':>10}\n"
+        result += '-' * (len(result) - 1) + '\n'
         for item in self._items:
-            print(item)
+            result += str(item) + '\n'
+        return result
     
     def toJSON(self):
         filepath = os.path.join(self.__class__.PACKING_LIST_DIR, self.filename)
         with open(filepath, 'w') as f:
             f.write(PackingListSchema().dumps(self))
+        return filepath
 
     @classmethod
     def fromJSON(cls, filename):
@@ -107,7 +107,7 @@ class PackingList(object):
             return PackingListSchema().loads(f.read())
 
     @classmethod
-    def list_packing_lists(cls):
+    def get_packing_lists(cls):
         filenames = os.listdir(cls.PACKING_LIST_DIR)
         filenames_split = list(map(os.path.splitext, filenames))
         json_filenames = [x[0] for x in filenames_split if x[1] == '.json']

@@ -23,11 +23,7 @@ class PackingItem(object):
     def __eq__(self, other):
         if not isinstance(other, PackingItem):
             return False
-        return (
-            self.item_name == other.item_name and
-            self.count == other.count and
-            self.packed == other.packed
-        )
+        return self.item_name == other.item_name
     
     @property
     def packed(self):
@@ -46,9 +42,7 @@ class PackingItem(object):
             raise ValueError("i must be True, False, 'yes', 'y', 'no' or 'n'")
         
     def packed_yesno(self):
-        if self.packed:
-            return 'Yes'
-        return 'No'
+        return 'Yes' if self.packed else 'No'
     
 
 class PackingItemIterator:
