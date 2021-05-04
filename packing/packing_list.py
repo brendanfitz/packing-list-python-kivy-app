@@ -130,7 +130,7 @@ class PackingListDate(date):
             value = datetime.strptime(value, cls.STRPTIME_PAT_STR).date()
             return cls(value.year, value.month, value.day) 
         else:
-            raise ValueError(f'{type(value)} not accepted')
+            raise TypeError(f'{type(value)} not accepted')
 
 class PackingDateValueError(ValueError):
     """ Error raised when trip End Date is before the Start Date """
